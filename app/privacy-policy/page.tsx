@@ -1,14 +1,16 @@
 import { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
 import Section from "@/components/ui/Section";
 import Container from "@/components/ui/Container";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Privacy Policy",
-  description: "How MH Global Attire Ltd. collects, uses and protects the information you share through our website and inquiry forms.",
-  path: "/privacy-policy",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildMetadata({
+    title: "Privacy Policy",
+    description: "How MH Global Attire Ltd. collects, uses and protects the information you share through our website and inquiry forms.",
+    path: "/privacy-policy",
+  });
+}
 
 const SECTIONS = [
   {

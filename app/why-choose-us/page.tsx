@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import PageHero from "@/components/sections/PageHero";
 import Section from "@/components/ui/Section";

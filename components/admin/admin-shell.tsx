@@ -13,6 +13,7 @@ import {
   ArrowRightOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/app/admin/sign-out-action";
@@ -46,6 +47,7 @@ const NAV_ITEMS = [
   { label: "Products", icon: ShoppingBagIcon, href: "/admin/products", exact: false },
   { label: "Inquiries", icon: InboxIcon, href: "/admin/inquiries", exact: false },
   { label: "Content", icon: DocumentTextIcon, href: "/admin/content", exact: false },
+  { label: "SEO", icon: MagnifyingGlassIcon, href: "/admin/seo", exact: false },
   { label: "Settings", icon: Cog6ToothIcon, href: "/admin/settings", exact: false },
 ] as const;
 

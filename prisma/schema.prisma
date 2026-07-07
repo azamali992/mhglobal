@@ -103,3 +103,16 @@ model Certification {
   published Boolean   @default(false)
   order     Int       @default(0)
 }
+
+// Per-page SEO overrides, editable from the admin panel. A row is optional —
+// pages fall back to their code-defined defaults (lib/seo.ts buildMetadata
+// callers) when no override exists or a field is left blank. The dynamic OG
+// image route (app/api/og) reads whatever title ends up resolved here, so
+// editing the title automatically updates the social-share image too.
+model PageSeo {
+  id          String   @id @default(cuid())
+  path        String   @unique
+  title       String?
+  description String?
+  updatedAt   DateTime @updatedAt
+}

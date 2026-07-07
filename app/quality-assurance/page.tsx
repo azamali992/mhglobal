@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
 import Section from "@/components/ui/Section";
 import Container from "@/components/ui/Container";

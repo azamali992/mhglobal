@@ -1,18 +1,21 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
-import { buildMetadata, buildFaqSchema } from "@/lib/seo";
+import { buildFaqSchema } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
 import ProductsGrid from "@/components/sections/ProductsGrid";
 import FaqSection from "@/components/sections/FaqSection";
 import { PRODUCTS_FAQ } from "@/lib/faq-data";
 import CtaBand from "@/components/sections/CtaBand";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Our Products",
-  description:
-    "Browse our full range of custom apparel manufacturing categories including T-shirts, hoodies, polo shirts, sportswear and more.",
-  path: "/products",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildMetadata({
+    title: "Our Products",
+    description:
+      "Browse our full range of custom apparel manufacturing categories including T-shirts, hoodies, polo shirts, sportswear and more.",
+    path: "/products",
+  });
+}
 
 export default async function ProductsPage() {
   const [categories, homeBlocks, whatsapp] = await Promise.all([

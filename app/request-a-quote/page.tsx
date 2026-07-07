@@ -1,19 +1,21 @@
 import { Metadata } from "next";
 import { ClipboardList, MessagesSquare, PackageCheck } from "lucide-react";
 import { prisma } from "@/lib/db";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
 import Section from "@/components/ui/Section";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/motion/Reveal";
 import InquiryForm from "@/components/sections/InquiryForm";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Request a Quote",
-  description:
-    "Submit your apparel manufacturing requirements — product, quantity, fabric, GSM, colours, sizing and customization — to receive a suitable MOQ and quotation.",
-  path: "/request-a-quote",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildMetadata({
+    title: "Request a Quote",
+    description:
+      "Submit your apparel manufacturing requirements — product, quantity, fabric, GSM, colours, sizing and customization — to receive a suitable MOQ and quotation.",
+    path: "/request-a-quote",
+  });
+}
 
 const STEPS = [
   { icon: ClipboardList, title: "Submit Requirements", body: "Share your product, quantity, fabric, GSM, colours, sizing and customization." },

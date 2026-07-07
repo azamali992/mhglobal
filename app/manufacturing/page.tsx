@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
-import { buildMetadata, buildServiceSchema } from "@/lib/seo";
+import { buildServiceSchema } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
 import ManufacturingIntro from "@/components/sections/ManufacturingIntro";
 import ManufacturingCapabilities from "@/components/sections/ManufacturingCapabilities";

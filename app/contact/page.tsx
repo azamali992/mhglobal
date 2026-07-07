@@ -2,19 +2,21 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Phone, Mail, MapPin, User, MessageCircle } from "lucide-react";
 import { prisma } from "@/lib/db";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
 import Section from "@/components/ui/Section";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/motion/Reveal";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Contact Us",
-  description:
-    "Contact MH Global Attire — apparel manufacturing and export in Faisalabad, Pakistan. Call, WhatsApp or email our team to discuss your order.",
-  path: "/contact",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildMetadata({
+    title: "Contact Us",
+    description:
+      "Contact MH Global Attire — apparel manufacturing and export in Faisalabad, Pakistan. Call, WhatsApp or email our team to discuss your order.",
+    path: "/contact",
+  });
+}
 
 export default async function ContactPage() {
   const settings = await prisma.siteSetting.findMany();

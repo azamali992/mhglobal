@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import HomeHero from "@/components/sections/HomeHero";
 import HomeQuickStats from "@/components/sections/HomeQuickStats";
 import HomeTrustStrip from "@/components/sections/HomeTrustStrip";

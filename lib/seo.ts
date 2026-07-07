@@ -1,12 +1,18 @@
 /**
  * lib/seo.ts — shared SEO helpers (Phase 6).
  *
+ * Client-safe on purpose: PageHero.tsx ("use client") imports
+ * buildBreadcrumbSchema from here, so this file must never import
+ * anything server/Node-only (Prisma, the Postgres driver, etc.) — doing so
+ * would pull those into the client bundle and break the build. The one
+ * function that genuinely needs a database read (buildMetadata, for the
+ * admin-editable per-page SEO overrides) lives in lib/seo-metadata.ts
+ * instead, which only Server Components (generateMetadata) import.
+ *
  * SITE_URL: the canonical production origin. Override with NEXT_PUBLIC_SITE_URL
  * once the real domain/hosting is finalized at deploy time; falls back to the
  * known production domain, then localhost in dev.
  */
-
-import type { Metadata } from "next";
 
 const PRODUCTION_URL = "https://www.mhglobalattire.com";
 
@@ -18,48 +24,6 @@ export const SITE_NAME = "MH Global Attire";
 
 export function absoluteUrl(path: string): string {
   return new URL(path, SITE_URL).toString();
-}
-
-function ogImageUrl(title: string): string {
-  return absoluteUrl(`/api/og?title=${encodeURIComponent(title)}`);
-}
-
-interface BuildMetadataInput {
-  /** Plain page title, without the "| MH Global Attire" suffix — the root layout's title template adds that. */
-  title: string;
-  description: string;
-  /** Route path, e.g. "/about" or "/products/t-shirts" */
-  path: string;
-}
-
-/**
- * Merges canonical + Open Graph + Twitter card metadata on top of a page's
- * title/description, so every page gets consistent social/SEO metadata
- * without repeating the same boilerplate 13 times.
- */
-export function buildMetadata({ title, description, path }: BuildMetadataInput): Metadata {
-  const url = absoluteUrl(path);
-  const image = ogImageUrl(title);
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: {
-      title: `${title} | ${SITE_NAME}`,
-      description,
-      url,
-      siteName: SITE_NAME,
-      type: "website",
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${title} | ${SITE_NAME}`,
-      description,
-      images: [image],
-    },
-  };
 }
 
 // ─── JSON-LD schema builders ────────────────────────────────────────────────

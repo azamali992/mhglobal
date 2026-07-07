@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { buildMetadata, buildProductSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildProductSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo-metadata";
 import CategoryHero from "@/components/sections/CategoryHero";
 import CategorySpecs from "@/components/sections/CategorySpecs";
 import CategoryProducts from "@/components/sections/CategoryProducts";
