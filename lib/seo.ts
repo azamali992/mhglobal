@@ -1,0 +1,181 @@
+/**
+ * lib/seo.ts — shared SEO helpers (Phase 6).
+ *
+ * SITE_URL: the canonical production origin. Override with NEXT_PUBLIC_SITE_URL
+ * once the real domain/hosting is finalized at deploy time; falls back to the
+ * known production domain, then localhost in dev.
+ */
+
+import type { Metadata } from "next";
+
+const PRODUCTION_URL = "https://www.mhglobalattire.com";
+
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.NODE_ENV === "production" ? PRODUCTION_URL : "http://localhost:3000");
+
+export const SITE_NAME = "MH Global Attire";
+
+export function absoluteUrl(path: string): string {
+  return new URL(path, SITE_URL).toString();
+}
+
+function ogImageUrl(title: string): string {
+  return absoluteUrl(`/api/og?title=${encodeURIComponent(title)}`);
+}
+
+interface BuildMetadataInput {
+  /** Plain page title, without the "| MH Global Attire" suffix — the root layout's title template adds that. */
+  title: string;
+  description: string;
+  /** Route path, e.g. "/about" or "/products/t-shirts" */
+  path: string;
+}
+
+/**
+ * Merges canonical + Open Graph + Twitter card metadata on top of a page's
+ * title/description, so every page gets consistent social/SEO metadata
+ * without repeating the same boilerplate 13 times.
+ */
+export function buildMetadata({ title, description, path }: BuildMetadataInput): Metadata {
+  const url = absoluteUrl(path);
+  const image = ogImageUrl(title);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${title} | ${SITE_NAME}`,
+      description,
+      url,
+      siteName: SITE_NAME,
+      type: "website",
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${SITE_NAME}`,
+      description,
+      images: [image],
+    },
+  };
+}
+
+// ─── JSON-LD schema builders ────────────────────────────────────────────────
+
+interface OrganizationSchemaInput {
+  whatsapp: string;
+}
+
+export function buildOrganizationSchema({ whatsapp }: OrganizationSchemaInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: absoluteUrl("/logo.png"),
+    foundingDate: "2022",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Hassan Dall Mills, New Mandi Road",
+      addressLocality: "Faisalabad",
+      addressRegion: "Punjab",
+      postalCode: "38000",
+      addressCountry: "PK",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: whatsapp,
+      contactType: "sales",
+      email: "info@mhglobalattire.com",
+      areaServed: "Worldwide",
+      availableLanguage: "English",
+    },
+    sameAs: [
+      "https://www.instagram.com/mhglobalattire/",
+      "https://www.linkedin.com/company/mh-global-attire/",
+    ],
+  };
+}
+
+export interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+export function buildBreadcrumbSchema(items: BreadcrumbItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.label,
+      item: absoluteUrl(item.href),
+    })),
+  };
+}
+
+interface ProductSchemaInput {
+  name: string;
+  slug: string;
+  categorySlug: string;
+  categoryName: string;
+  description: string | null;
+  fabricOptions: string[];
+  gsmRange: string | null;
+}
+
+export function buildProductSchema(product: ProductSchemaInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description ?? undefined,
+    category: product.categoryName,
+    url: absoluteUrl(`/products/${product.categorySlug}`),
+    material: product.fabricOptions.length > 0 ? product.fabricOptions.join(", ") : undefined,
+    additionalProperty: product.gsmRange
+      ? [{ "@type": "PropertyValue", name: "GSM Range", value: product.gsmRange }]
+      : undefined,
+    brand: { "@type": "Brand", name: SITE_NAME },
+    manufacturer: { "@type": "Organization", name: SITE_NAME },
+  };
+}
+
+interface ServiceSchemaInput {
+  name: string;
+  description: string;
+  path: string;
+}
+
+export function buildServiceSchema({ name, description, path }: ServiceSchemaInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: name,
+    name,
+    description,
+    url: absoluteUrl(path),
+    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    areaServed: "Worldwide",
+  };
+}
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export function buildFaqSchema(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}

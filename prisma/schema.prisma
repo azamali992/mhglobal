@@ -1,0 +1,105 @@
+// MH Global Attire — Prisma Schema
+// Phase 1: Full model definitions added per master plan §5.
+// Note: datasource URL is configured in prisma.config.ts (Prisma v7 requirement).
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Category {
+  id           String    @id @default(cuid())
+  name         String
+  slug         String    @unique
+  description  String?
+  gsmRange     String?
+  heroImage    String?
+  order        Int       @default(0)
+  published    Boolean   @default(true)
+  products     Product[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Product {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  description    String?
+  fabricOptions  String[]
+  gsmRange       String?
+  sizes          String?
+  customization  String[]
+  images         String[]
+  order          Int      @default(0)
+  published      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Inquiry {
+  id              String        @id @default(cuid())
+  name            String
+  company         String?
+  country         String?
+  email           String
+  phone           String?
+  productInterest String?
+  quantity        String?
+  fabric          String?
+  gsm             String?
+  customization   String?
+  message         String?
+  fileUrls        String[]
+  status          InquiryStatus @default(NEW)
+  createdAt       DateTime      @default(now())
+}
+
+enum InquiryStatus {
+  NEW
+  REVIEWED
+  QUOTED
+  CLOSED
+}
+
+model ContentBlock {
+  id        String   @id @default(cuid())
+  page      String
+  key       String
+  value     String
+  imageUrl  String?
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([page, key])
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+}
+
+model Certification {
+  id        String    @id @default(cuid())
+  name      String
+  issuer    String?
+  imageUrl  String?
+  expiresAt DateTime?
+  published Boolean   @default(false)
+  order     Int       @default(0)
+}
