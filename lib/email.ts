@@ -27,6 +27,16 @@ export const transporter = nodemailer.createTransport({
  *
  * @param inquiry - Key fields from the submitted Inquiry record.
  */
+/**
+ * Strips CR/LF (and other control characters) from a value before it's
+ * interpolated into an email subject line — subject lines are effectively
+ * SMTP header content, so unsanitized newlines from buyer-submitted input
+ * (name, company) could otherwise be used for header/content injection.
+ */
+function sanitizeForSubject(value: string): string {
+  return value.replace(/[\r\n\t\0]+/g, " ").trim();
+}
+
 export async function sendInquiryNotification(inquiry: {
   name: string;
   email: string;
@@ -34,10 +44,13 @@ export async function sendInquiryNotification(inquiry: {
   country?: string | null;
   message?: string | null;
 }): Promise<void> {
+  const safeName = sanitizeForSubject(inquiry.name);
+  const safeCompany = inquiry.company ? sanitizeForSubject(inquiry.company) : null;
+
   await transporter.sendMail({
     from: `"MH Global Attire" <${process.env.GMAIL_USER}>`,
     to: process.env.GMAIL_USER,
-    subject: `New Inquiry from ${inquiry.name}${inquiry.company ? ` — ${inquiry.company}` : ""}`,
+    subject: `New Inquiry from ${safeName}${safeCompany ? ` — ${safeCompany}` : ""}`,
     text: [
       `New inquiry received on MH Global Attire.`,
       ``,

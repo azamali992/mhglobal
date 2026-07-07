@@ -17,6 +17,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { authConfig } from "@/auth.config";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 // ─── TypeScript module augmentation ─────────────────────────────────────────
 
@@ -55,8 +56,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       /**
        * Runs ONLY in the Node.js API route handler.
        * Queries Prisma to verify the AdminUser record.
+       *
+       * Rate-limited per IP (10 attempts / 15 min) to slow down brute-force
+       * password guessing against the admin login — mirrors the same
+       * checkRateLimit/getClientIp helpers used on the public inquiry form.
        */
-      async authorize(credentials) {
+      async authorize(credentials, request) {
+        const ip = getClientIp(request);
+        if (!checkRateLimit(`admin-login:${ip}`, 10, 15 * 60 * 1000)) {
+          return null;
+        }
+
         const email = credentials?.email;
         const password = credentials?.password;
 
