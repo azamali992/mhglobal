@@ -62,9 +62,9 @@ export default function CategoryHero({ name, description, gsmRange, heroImage }:
         )}
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <Link href="/request-a-quote">
-            <Button variant="primary" size="md">Request a Quote</Button>
-          </Link>
+          <Button asChild variant="primary" size="md">
+            <Link href="/request-a-quote">Request a Quote</Link>
+          </Button>
           <Link
             href="/products"
             className="font-sans text-sm font-semibold text-white/80 hover:text-white transition-colors"

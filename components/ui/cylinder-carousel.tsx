@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export interface CarouselImage {
@@ -66,10 +66,13 @@ export const CylinderCarousel = React.forwardRef<HTMLDivElement, CylinderCarouse
           `}</style>
 
           {images.map((img, i) => (
-            <img
+            <Image
               key={i}
               src={img.src}
               alt={img.alt || `Carousel image ${i}`}
+              width={cardWidth}
+              height={Math.round((cardWidth * 10) / 7)}
+              sizes={`${cardWidth}px`}
               className={cn(
                 "[grid-area:1/1] object-cover rounded-2xl [backface-visibility:hidden]",
                 cardClassName
@@ -77,6 +80,7 @@ export const CylinderCarousel = React.forwardRef<HTMLDivElement, CylinderCarouse
               style={
                 {
                   width: "var(--w)",
+                  height: "auto",
                   aspectRatio: "7/10",
                   "--i": i,
                   transform: `rotateY(${(360 / N) * i}deg) translateZ(${-cylinderRadius}px)`,

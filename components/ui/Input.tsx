@@ -8,6 +8,13 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   id: string;
   /** Error message to display below the input; also triggers error styling */
   error?: string;
+  /**
+   * Label color context — 'light' (default) for navy text on cream/white
+   * surfaces, 'dark' for white text when the Input sits on a navy/navy-800
+   * surface (e.g. the admin login card). The input field itself is always
+   * a white box either way, so only the label needs to adapt.
+   */
+  variant?: "light" | "dark";
 }
 
 /**
@@ -22,16 +29,22 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
  *   </div>
  */
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, error, className, required, ...props }, ref) => {
+  ({ label, id, error, className, required, variant = "light", ...props }, ref) => {
     const hasError = !!error;
     const errorId = `${id}-error`;
 
     return (
       <div className="flex flex-col gap-1.5">
-        <label htmlFor={id} className="font-sans text-sm font-medium text-navy">
+        <label
+          htmlFor={id}
+          className={cn(
+            "font-sans text-sm font-medium",
+            variant === "dark" ? "text-white" : "text-navy"
+          )}
+        >
           {label}
           {required && (
-            <span aria-hidden="true" className="ml-0.5 text-crimson">
+            <span aria-hidden="true" className={cn("ml-0.5", variant === "dark" ? "text-crimson-light" : "text-crimson")}>
               *
             </span>
           )}

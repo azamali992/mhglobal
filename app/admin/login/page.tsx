@@ -101,6 +101,7 @@ export default function AdminLoginPage() {
                   autoComplete="email"
                   placeholder="admin@example.com"
                   required
+                  variant="dark"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isLoading}
@@ -114,6 +115,7 @@ export default function AdminLoginPage() {
                   autoComplete="current-password"
                   placeholder="••••••••"
                   required
+                  variant="dark"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={isLoading}

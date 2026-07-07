@@ -70,7 +70,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       <Container>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
           <div>
-            <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson mb-2">
+            <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson-light mb-2">
               Manufacturing Capabilities
             </p>
             <h2 id="home-capabilities-heading" className="font-display text-h3 md:text-h2 text-white">
@@ -117,7 +117,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
               <p className="font-sans text-body text-white/70 leading-relaxed mb-6">{current.intro}</p>
               <Link
                 href={current.href}
-                className="inline-flex items-center gap-1.5 font-sans text-sm font-semibold text-crimson hover:text-crimson-600 transition-colors"
+                className="inline-flex items-center gap-1.5 font-sans text-sm font-semibold text-crimson-light hover:text-white transition-colors"
               >
                 {current.linkLabel} <ArrowRight className="w-4 h-4" />
               </Link>
@@ -130,7 +130,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
                   className="rounded-card border border-white/10 bg-white/[0.03] px-4 py-4 flex items-start gap-3"
                 >
                   {current.numbered && (
-                    <span className="font-display text-h4 text-crimson/70 leading-none shrink-0">
+                    <span className="font-display text-h4 text-crimson-light/80 leading-none shrink-0">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   )}

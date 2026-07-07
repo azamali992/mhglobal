@@ -100,7 +100,7 @@ export default async function ContactPage() {
             {/* Right — inquiry CTA panel */}
             <Reveal direction="left" delay={0.1}>
               <div className="flex h-full flex-col justify-center rounded-card bg-navy p-8 text-white">
-                <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson mb-3">
+                <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson-light mb-3">
                   Fastest Way to Start
                 </p>
                 <h3 className="font-display text-h3 text-white mb-3">Send a Detailed Inquiry</h3>
@@ -108,11 +108,9 @@ export default async function ContactPage() {
                   Share your specifications through our inquiry form and receive a suitable MOQ and quotation.
                 </p>
                 <div className="flex flex-col gap-3">
-                  <Link href="/request-a-quote">
-                    <Button variant="primary" size="md" className="w-full">
-                      Request a Quote
-                    </Button>
-                  </Link>
+                  <Button asChild variant="primary" size="md" className="w-full">
+                    <Link href="/request-a-quote">Request a Quote</Link>
+                  </Button>
                   <a
                     href={waHref}
                     target="_blank"

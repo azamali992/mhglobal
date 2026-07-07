@@ -66,13 +66,17 @@ export default async function QualityAssurancePage() {
 
           <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-label="Quality control checkpoints">
             {points.map((point, i) => (
-              <Reveal key={point} direction="up" delay={(i % 3) * 0.05}>
-                <li className="flex h-full items-start gap-4 rounded-card border border-line bg-cream-100 p-5 transition-shadow duration-200 hover:shadow-card">
-                  <span className="font-display text-h3 leading-none text-crimson/70 shrink-0">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="font-sans text-body text-navy font-medium pt-1">{point}</p>
-                </li>
+              <Reveal
+                key={point}
+                as="li"
+                direction="up"
+                delay={(i % 3) * 0.05}
+                className="flex h-full items-start gap-4 rounded-card border border-line bg-cream-100 p-5 transition-shadow duration-200 hover:shadow-card"
+              >
+                <span className="font-display text-h3 leading-none text-crimson/70 shrink-0">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="font-sans text-body text-navy font-medium pt-1">{point}</p>
               </Reveal>
             ))}
           </ol>

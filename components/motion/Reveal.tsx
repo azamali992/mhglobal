@@ -12,6 +12,12 @@ interface RevealProps {
   /** Direction the element slides in from */
   direction?: "up" | "down" | "left" | "right";
   className?: string;
+  /**
+   * Wrapper element tag. Defaults to "div" — use "li" when Reveal directly
+   * wraps a list item, otherwise the extra div breaks the required
+   * ul/ol > li DOM structure (fails the "list"/"listitem" a11y rules).
+   */
+  as?: "div" | "li";
 }
 
 const OFFSET = 32;
@@ -27,6 +33,7 @@ export default function Reveal({
   duration = 0.5,
   direction = "up",
   className,
+  as = "div",
 }: RevealProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -51,12 +58,16 @@ export default function Reveal({
     visible: { opacity: 1, x: 0, y: 0 },
   };
 
+  const Tag = as === "li" ? "li" : "div";
+
   if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
+    return <Tag className={className}>{children}</Tag>;
   }
 
+  const MotionTag = as === "li" ? motion.li : motion.div;
+
   return (
-    <motion.div
+    <MotionTag
       className={className}
       initial="hidden"
       whileInView="visible"
@@ -65,6 +76,6 @@ export default function Reveal({
       variants={variants}
     >
       {children}
-    </motion.div>
+    </MotionTag>
   );
 }

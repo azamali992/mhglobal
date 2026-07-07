@@ -11,6 +11,12 @@ const config: Config = {
         "navy-800": "#0D2A4E",
         crimson: "#941C1D",
         "crimson-600": "#B02A28",
+        // Lighter tint reserved for crimson TEXT on navy/dark backgrounds —
+        // the base crimson (#941C1D) only reaches 1.86:1 contrast against
+        // navy (#0A2240), far under WCAG AA's 4.5:1 minimum for text. This
+        // shade reaches 5.6:1. Never use for text on cream/white — crimson
+        // and crimson-600 already pass there.
+        "crimson-light": "#F07373",
         cream: "#EDE6D6",
         "cream-100": "#F5F1E8",
         white: "#FFFFFF",

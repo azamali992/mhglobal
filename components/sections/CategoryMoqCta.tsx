@@ -27,11 +27,9 @@ export default function CategoryMoqCta({
               {moqNote}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/request-a-quote">
-                <Button variant="primary" size="md">
-                  {ctaPrimary}
-                </Button>
-              </Link>
+              <Button asChild variant="primary" size="md">
+                <Link href="/request-a-quote">{ctaPrimary}</Link>
+              </Button>
               <a
                 href={waHref}
                 target="_blank"

@@ -49,7 +49,11 @@ export default function TextGenerateEffect({
   let charIndex = 0;
 
   return (
-    <Tag className={className} aria-label={text}>
+    // role="text" makes aria-label valid on an otherwise generic-role element
+    // like <span> — it's the standard fix for fragmented per-character
+    // animated text: screen readers announce the label as one string and
+    // skip the individual aria-hidden character spans inside.
+    <Tag className={className} aria-label={text} role="text">
       {words.map((word, wi) => {
         const wordChars = word.split("").map((char) => {
           const i = charIndex++;

@@ -302,7 +302,10 @@ export default function AdminShell({
           </header>
 
           {/* Main content */}
-          <main className="flex-1 overflow-y-auto bg-cream-100 pt-14">
+          {/* id + tabIndex={-1}: the root layout's skip-to-content link
+              (href="#main-content") targets this id on every route,
+              including /admin/**, so it must exist here too. */}
+          <main id="main-content" tabIndex={-1} className="flex-1 overflow-y-auto bg-cream-100 pt-14 outline-none">
             <div className="p-6 lg:p-8">{children}</div>
           </main>
         </div>

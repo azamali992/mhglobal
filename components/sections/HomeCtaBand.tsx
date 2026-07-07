@@ -63,13 +63,11 @@ export default function HomeCtaBand({
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/request-a-quote">
-              <MovingBorder>
-                <Button variant="secondary" secondaryContext="dark" size="md">
-                  {ctaPrimary}
-                </Button>
-              </MovingBorder>
-            </Link>
+            <MovingBorder>
+              <Button asChild variant="secondary" secondaryContext="dark" size="md">
+                <Link href="/request-a-quote">{ctaPrimary}</Link>
+              </Button>
+            </MovingBorder>
 
             <a
               href={waHref}

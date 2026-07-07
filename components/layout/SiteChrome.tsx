@@ -38,7 +38,14 @@ export default function SiteChrome({
     <>
       <Header categories={categories} />
       <PageTransition>
-        <main id="main-content">{children}</main>
+        {/* tabIndex={-1} lets the skip-to-content link (app/layout.tsx) actually
+            move focus here — without it, activating an href="#main-content"
+            link scrolls the page but leaves focus on <body>, since a plain
+            <main> isn't natively focusable. outline-none since this focus is
+            programmatic, not a visible keyboard-navigation stop. */}
+        <main id="main-content" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
       </PageTransition>
       <Footer categories={categories} />
       <WhatsAppButton />

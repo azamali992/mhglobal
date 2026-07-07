@@ -296,11 +296,9 @@ export function NotchNavbar({
                   <NavLink key={item.label} href={item.href} label={item.label} className={textMuted} />
                 ))}
                 <div className={cn("pl-4 ml-1 border-l shrink-0", dividerBorder)}>
-                  <Link href="/request-a-quote">
-                    <Button variant="primary" size="sm">
-                      Request a Quote
-                    </Button>
-                  </Link>
+                  <Button asChild variant="primary" size="sm">
+                    <Link href="/request-a-quote">Request a Quote</Link>
+                  </Button>
                 </div>
               </nav>
 
@@ -433,11 +431,11 @@ export function NotchNavbar({
               )}
 
               <div className="h-px bg-white/10 my-2" />
-              <Link href="/request-a-quote" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="primary" size="md" className="w-full">
+              <Button asChild variant="primary" size="md" className="w-full">
+                <Link href="/request-a-quote" onClick={() => setIsMobileMenuOpen(false)}>
                   Request a Quote
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </nav>
           </motion.div>
         )}

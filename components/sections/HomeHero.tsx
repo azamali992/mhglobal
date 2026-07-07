@@ -120,16 +120,12 @@ export default function HomeHero({ heading, subheading, ctaPrimary, ctaSecondary
             </motion.p>
 
             <motion.div {...fadeUp(0.32)} className="flex flex-col sm:flex-row items-center gap-4 mb-10">
-              <Link href="/request-a-quote">
-                <Button variant="primary" size="md">
-                  {ctaPrimary}
-                </Button>
-              </Link>
-              <Link href="/products">
-                <Button variant="secondary" secondaryContext="light" size="md">
-                  {ctaSecondary}
-                </Button>
-              </Link>
+              <Button asChild variant="primary" size="md">
+                <Link href="/request-a-quote">{ctaPrimary}</Link>
+              </Button>
+              <Button asChild variant="secondary" secondaryContext="light" size="md">
+                <Link href="/products">{ctaSecondary}</Link>
+              </Button>
             </motion.div>
           </div>
 

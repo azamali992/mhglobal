@@ -81,17 +81,18 @@ export default function CategoryProducts({ products }: CategoryProductsProps) {
                       ))}
                     </div>
                   )}
-                  <Link href="/request-a-quote" className="mt-auto">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      className="w-full"
-                      aria-label={`Request a quote for ${product.name}`}
-                    >
+                  <Button
+                    asChild
+                    variant="primary"
+                    size="sm"
+                    className="w-full mt-auto"
+                    aria-label={`Request a quote for ${product.name}`}
+                  >
+                    <Link href="/request-a-quote">
                       Request a Quote
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </Card>
             </Reveal>

@@ -61,18 +61,22 @@ export default async function RequestAQuotePage() {
                 {STEPS.map((step, i) => {
                   const Icon = step.icon;
                   return (
-                    <Reveal key={step.title} direction="up" delay={i * 0.08}>
-                      <li className="flex gap-4 rounded-card border border-line bg-cream-100 p-5">
-                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-btn bg-navy text-white">
-                          <Icon className="h-5 w-5" aria-hidden="true" />
-                        </span>
-                        <div>
-                          <h4 className="font-display text-h4 text-navy mb-1">
-                            {i + 1}. {step.title}
-                          </h4>
-                          <p className="font-sans text-body text-ink-muted leading-relaxed">{step.body}</p>
-                        </div>
-                      </li>
+                    <Reveal
+                      key={step.title}
+                      as="li"
+                      direction="up"
+                      delay={i * 0.08}
+                      className="flex gap-4 rounded-card border border-line bg-cream-100 p-5"
+                    >
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-btn bg-navy text-white">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <div>
+                        <h4 className="font-display text-h4 text-navy mb-1">
+                          {i + 1}. {step.title}
+                        </h4>
+                        <p className="font-sans text-body text-ink-muted leading-relaxed">{step.body}</p>
+                      </div>
                     </Reveal>
                   );
                 })}

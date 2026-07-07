@@ -111,14 +111,14 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
                 <li key={cat.slug}>
                   <Link
                     href={`/products/${cat.slug}`}
-                    className="font-sans text-sm text-white/70 hover:text-crimson transition-colors duration-150"
+                    className="font-sans text-sm text-white/70 hover:text-crimson-light transition-colors duration-150"
                   >
                     {cat.name}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/products" className="font-sans text-sm font-semibold text-crimson hover:text-crimson-600 transition-colors duration-150">
+                <Link href="/products" className="font-sans text-sm font-semibold text-crimson-light hover:text-white transition-colors duration-150">
                   View All →
                 </Link>
               </li>
@@ -158,7 +158,7 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
             <p className="font-sans text-sm text-white/70 leading-relaxed">
               Ahmad Hassan
               <br />
-              <span className="text-white/45">Founder &amp; Managing Director</span>
+              <span className="text-white/50">Founder &amp; Managing Director</span>
             </p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { forwardRef } from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 /** Controls the color/border treatment based on background context */
@@ -62,6 +63,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       children,
       disabled,
+      asChild = false,
       ...props
     },
     ref
@@ -73,11 +75,35 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ]
         : (VARIANTS[variant] as string);
 
+    const isDisabled = disabled || isLoading;
+
+    // asChild merges these classes + props onto the single child element
+    // (typically a Next.js <Link>) instead of rendering a second, nested
+    // <button> — nesting a real <button> inside a real <a> both leaves two
+    // independently-focusable elements in the tab order for one visual
+    // control, and is invalid HTML (interactive content inside interactive
+    // content). type/disabled are button-only attributes, so they're only
+    // applied on the real <button> branch; the asChild branch uses
+    // aria-disabled instead, which works on any element.
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref}
+          aria-busy={isLoading ? "true" : undefined}
+          aria-disabled={isDisabled ? "true" : undefined}
+          className={cn(BASE, variantClasses, SIZES[size], className)}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
+    }
+
     return (
       <button
         ref={ref}
         type="button"
-        disabled={disabled || isLoading}
+        disabled={isDisabled}
         aria-busy={isLoading ? "true" : undefined}
         className={cn(BASE, variantClasses, SIZES[size], className)}
         {...props}
