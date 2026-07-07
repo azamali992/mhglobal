@@ -12,7 +12,10 @@ function createPrismaClient(): PrismaClient {
     );
   }
   const adapter = new PrismaPg({ connectionString });
-  return new PrismaClient({ adapter, log: ["query"] });
+  return new PrismaClient({
+    adapter,
+    log: process.env.NODE_ENV === "production" ? [] : ["query"],
+  });
 }
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
