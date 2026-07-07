@@ -80,7 +80,7 @@ export default function HomeHero({ heading, subheading, ctaPrimary, ctaSecondary
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-contain object-center opacity-[0.12] md:opacity-100"
         />
       </motion.div>
 
