@@ -33,6 +33,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# large source product/category images — served via Cloudinary, not committed
+/public/images/products/
+/public/images/categories/*.png
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
