@@ -40,7 +40,7 @@ export default function CategoryProducts({ products }: CategoryProductsProps) {
             <Reveal key={product.id} direction="up" delay={(i % 3) * 0.06} className="h-full">
               <Card as="article" className="h-full flex flex-col overflow-hidden !p-0">
                 {/* Image */}
-                <div className="relative aspect-[4/3] w-full bg-cream-100">
+                <div className="relative aspect-[3/4] w-full bg-cream-100">
                   {product.image ? (
                     <Image
                       src={product.image}
