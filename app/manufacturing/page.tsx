@@ -5,7 +5,7 @@ import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
 import ManufacturingIntro from "@/components/sections/ManufacturingIntro";
 import ManufacturingCapabilities from "@/components/sections/ManufacturingCapabilities";
-import ManufacturingProcess from "@/components/sections/ManufacturingProcess";
+import ManufacturingJourney, { type JourneyStage } from "@/components/sections/ManufacturingJourney";
 import ManufacturingSupplyChain from "@/components/sections/ManufacturingSupplyChain";
 import CtaBand from "@/components/sections/CtaBand";
 
@@ -25,26 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ManufacturingPage() {
   const [mfgBlocks, homeBlocks, aboutHistory, whatsapp] = await Promise.all([
-    prisma.contentBlock.findMany({
-      where: {
-        page: "manufacturing",
-        key: {
-          in: [
-            "hero.heading",
-            "manufacturing.intro",
-            "stage.1",
-            "stage.2",
-            "stage.3",
-            "stage.4",
-            "stage.5",
-            "stage.6",
-            "stage.7",
-            "stage.8",
-            "stage.9",
-          ],
-        },
-      },
-    }),
+    prisma.contentBlock.findMany({ where: { page: "manufacturing" } }),
     prisma.contentBlock.findMany({
       where: {
         page: "home",
@@ -58,19 +39,22 @@ export default async function ManufacturingPage() {
   ]);
 
   const cb = Object.fromEntries(mfgBlocks.map((b) => [b.key, b.value]));
+  const imgMap = Object.fromEntries(mfgBlocks.map((b) => [b.key, b.imageUrl]));
   const home = Object.fromEntries(homeBlocks.map((b) => [b.key, b.value]));
 
-  const stages = [
-    cb["stage.1"],
-    cb["stage.2"],
-    cb["stage.3"],
-    cb["stage.4"],
-    cb["stage.5"],
-    cb["stage.6"],
-    cb["stage.7"],
-    cb["stage.8"],
-    cb["stage.9"],
-  ].filter(Boolean);
+  // Nine stages: label from stage.N, with optional CMS overrides for the
+  // description (stage.N.desc) and photo (stage.N.image — imageUrl + alt value).
+  const stages: JourneyStage[] = [];
+  for (let n = 1; n <= 9; n++) {
+    const label = cb[`stage.${n}`];
+    if (!label) continue;
+    stages.push({
+      label,
+      description: cb[`stage.${n}.desc`] ?? null,
+      image: imgMap[`stage.${n}.image`] ?? null,
+      alt: cb[`stage.${n}.image`] ?? null,
+    });
+  }
 
   // Extract the supply chain sentence from about.history (third sentence of paragraph 4)
   const historyParagraphs = aboutHistory.value.split("\n\n");
@@ -113,10 +97,7 @@ export default async function ManufacturingPage() {
       />
       <ManufacturingIntro intro={cb["manufacturing.intro"]} />
       <ManufacturingCapabilities />
-      <ManufacturingProcess
-        stages={stages}
-        heading={cb["hero.heading"]}
-      />
+      <ManufacturingJourney stages={stages} />
       <ManufacturingSupplyChain
         text={
           supplyChainSentence.endsWith(".")
