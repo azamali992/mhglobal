@@ -91,10 +91,16 @@ function useBackdropDark(): boolean {
   return dark
 }
 
+// Fixed h-9 matches the "Request a Quote" button's own box height (text-sm +
+// py-2 = 36px). Every nav item — plain links and the Products trigger button
+// alike — shares this height so each side's flex row centers its content
+// identically; without it, the side containing the taller button silently
+// inflates its own row height and every item on that side sits higher than
+// the other side's text-only items.
 const NavLink = ({ href, label, className }: { href: string; label: string; className?: string }) => (
   <Link
     href={href}
-    className={cn("text-sm font-medium transition-colors whitespace-nowrap", className)}
+    className={cn("inline-flex h-9 items-center text-sm font-medium transition-colors whitespace-nowrap", className)}
   >
     {label}
   </Link>
@@ -102,21 +108,21 @@ const NavLink = ({ href, label, className }: { href: string; label: string; clas
 
 const leftLinks = [
   { label: "About", href: "/about" },
-  { label: "Manufacturing", href: "/manufacturing", icon: Factory },
+  { label: "Services", href: "/services", icon: Factory },
 ]
 
-// Quality + Contact live with the left group so both sides balance in width
-// and the notch logo sits perfectly centered (the CTA button keeps the right
-// group heavy, so these two shift left to match it).
+// Quality lives with the left group so both sides balance in width and the
+// notch logo sits perfectly centered.
 const leftExtraLinks = [
   { label: "Quality", href: "/quality-assurance", icon: ShieldCheck },
-  { label: "Contact", href: "/contact", icon: Phone },
 ]
 
+// Contact sits last so it lands immediately before the "Request a Quote" CTA.
 const rightLinks = [
   { label: "OEM Services", href: "/oem-services", icon: Settings },
   { label: "Sustainability", href: "/sustainability", icon: Leaf },
   { label: "Why Us", href: "/why-choose-us", icon: Heart },
+  { label: "Contact", href: "/contact", icon: Phone },
 ]
 
 export function NotchNavbar({
@@ -247,7 +253,7 @@ export function NotchNavbar({
                     aria-haspopup="true"
                     aria-expanded={megaOpen}
                     onClick={() => setMegaOpen((v) => !v)}
-                    className={cn("flex items-center gap-1 text-sm font-medium transition-colors", textMuted)}
+                    className={cn("flex h-9 items-center gap-1 text-sm font-medium transition-colors", textMuted)}
                   >
                     Products
                     <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", megaOpen && "rotate-180")} />

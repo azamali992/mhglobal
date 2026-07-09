@@ -266,15 +266,15 @@ async function seedContentBlocks() {
   // above (datadoc.docx "MANUFACTURING INTRODUCTION"). Title Case labels only;
   // these are neutral identifiers, not marketing claims.
   const manufacturingStages: [string, string][] = [
-    ["stage.1", "Requirement Review"],
-    ["stage.2", "Fabric Preparation"],
-    ["stage.3", "Sampling"],
-    ["stage.4", "Cutting"],
-    ["stage.5", "Stitching"],
-    ["stage.6", "Customization"],
-    ["stage.7", "Finishing"],
-    ["stage.8", "Inspection"],
-    ["stage.9", "Packing"],
+    ["stage.1", "Knitting"],
+    ["stage.2", "Dyeing"],
+    ["stage.3", "Cutting"],
+    ["stage.4", "Printing"],
+    ["stage.5", "Embroidery"],
+    ["stage.6", "Stitching"],
+    ["stage.7", "Pressing"],
+    ["stage.8", "Quality Check"],
+    ["stage.9", "Inspection & Export"],
   ];
 
   for (let i = 0; i < manufacturingStages.length; i++) {

@@ -36,7 +36,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       heading: manufacturing.heading,
       intro: manufacturing.intro,
       items: manufacturing.stages,
-      href: "/manufacturing",
+      href: "/services",
       linkLabel: "View Full Manufacturing Process",
       numbered: true,
     },

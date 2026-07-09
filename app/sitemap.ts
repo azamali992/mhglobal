@@ -6,7 +6,7 @@ const STATIC_ROUTES = [
   "/",
   "/about",
   "/products",
-  "/manufacturing",
+  "/services",
   "/oem-services",
   "/quality-assurance",
   "/sustainability",
