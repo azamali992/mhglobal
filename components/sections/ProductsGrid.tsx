@@ -31,7 +31,7 @@ export default function ProductsGrid({ categories }: ProductsGridProps) {
             </h2>
           </div>
           <p className="hidden md:block font-sans text-caption text-ink-muted max-w-xs text-right">
-            {categories.length} categories · full fabric, GSM, colour, sizing &amp; branding control
+            Various categories · full fabric, GSM, colour, sizing &amp; branding control
           </p>
         </div>
 

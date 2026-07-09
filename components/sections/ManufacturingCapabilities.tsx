@@ -55,7 +55,7 @@ export default function ManufacturingCapabilities() {
       <Container>
         <div className="mb-8">
           <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson mb-2">
-            In-House Capabilities
+            Managed Manufacturing Capabilities
           </p>
           <h2 id="mfg-capabilities-heading" className="font-display text-h3 md:text-h2 text-navy max-w-2xl">
             One Managed Line, From Tech Pack to Shipment

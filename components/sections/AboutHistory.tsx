@@ -18,8 +18,11 @@ export default function AboutHistory({ paragraphs }: AboutHistoryProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-16 items-start">
           {/* Left column — history text */}
           <Reveal direction="up">
-            <h2 id="about-history-heading" className="sr-only">
-              Company History
+            <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson mb-2">
+              Who We Are
+            </p>
+            <h2 id="about-history-heading" className="font-display text-h3 md:text-h2 text-navy mb-6">
+              A Faisalabad-Based Manufacturing Partner
             </h2>
             {paragraphs.map((para, i) => (
               <p

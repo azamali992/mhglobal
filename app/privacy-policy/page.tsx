@@ -47,7 +47,7 @@ const SECTIONS = [
   {
     h: "Contact",
     p: [
-      "MH Global Attire Ltd., Hassan Dall Mills, New Mandi Road, Faisalabad, Punjab, Pakistan — 38000. Email: info@mhglobalattire.com.",
+      "MH Global Attire Ltd., Hassan Mills, New Mandi Road, Faisalabad, Punjab, Pakistan — 38000. Email: info@mhglobalattire.com.",
     ],
   },
 ];

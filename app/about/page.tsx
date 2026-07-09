@@ -5,7 +5,6 @@ import PageHero from "@/components/sections/PageHero";
 import AboutHistory from "@/components/sections/AboutHistory";
 import AboutMissionVision from "@/components/sections/AboutMissionVision";
 import AboutCoreValues from "@/components/sections/AboutCoreValues";
-import AboutTimeline from "@/components/sections/AboutTimeline";
 import CtaBand from "@/components/sections/CtaBand";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -59,7 +58,12 @@ export default async function AboutPage() {
   const cb = Object.fromEntries(aboutBlocks.map((b) => [b.key, b.value]));
   const home = Object.fromEntries(homeBlocks.map((b) => [b.key, b.value]));
 
-  const historyParagraphs = cb["about.history"].split("\n\n");
+  // The hero already carries the intro paragraph, and history paragraphs 1 & 3
+  // (opening + customization list) restate it almost verbatim — so show only the
+  // paragraphs that add new information (founding story + operations) to avoid
+  // the page feeling repetitive.
+  const allHistory = cb["about.history"].split("\n\n");
+  const historyParagraphs = [allHistory[1], allHistory[3]].filter(Boolean);
 
   const coreValues = [
     { name: "Quality", description: cb["values.quality"] },
@@ -68,37 +72,6 @@ export default async function AboutPage() {
     { name: "Customization", description: cb["values.customization"] },
     { name: "Partnership", description: cb["values.partnership"] },
     { name: "Continuous Improvement", description: cb["values.continuous-improvement"] },
-  ];
-
-  // Extract milestone sentences from the history ContentBlock
-  const historySentences = historyParagraphs.flatMap((p) =>
-    p.split(". ").filter(Boolean)
-  );
-  const foundingDesc =
-    historySentences.find((s) =>
-      s.includes("founded with the objective")
-    ) ?? historyParagraphs[1] ?? "";
-  const operationsDesc =
-    historySentences.find((s) =>
-      s.includes("manufacturing operations")
-    ) ?? historyParagraphs[3] ?? "";
-
-  const milestones = [
-    {
-      year: founded.value,
-      label: "Founded",
-      description: foundingDesc.replace(/\.$/, "") + ".",
-    },
-    {
-      year: String(Number(founded.value) + 1),
-      label: "Operations",
-      description: operationsDesc.replace(/\.$/, "") + ".",
-    },
-    {
-      year: "Today",
-      label: "Growth",
-      description: cb["about.vision"],
-    },
   ];
 
   return (
@@ -121,7 +94,6 @@ export default async function AboutPage() {
       <AboutHistory paragraphs={historyParagraphs} />
       <AboutMissionVision mission={cb["about.mission"]} vision={cb["about.vision"]} />
       <AboutCoreValues values={coreValues} />
-      <AboutTimeline milestones={milestones} />
       <CtaBand
         heading={home["hero.heading"]}
         ctaPrimary={home["hero.cta.primary"]}

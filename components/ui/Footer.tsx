@@ -18,6 +18,11 @@ const LinkedinIcon = () => (
     <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.25h4.5V23H.24V8.25zM8.25 8.25h4.31v2.01h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V23h-4.5v-6.93c0-1.65-.03-3.78-2.3-3.78-2.3 0-2.66 1.8-2.66 3.66V23h-4.5V8.25z" />
   </svg>
 );
+const FacebookIcon = () => (
+  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-hidden="true">
+    <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.9 3.78-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z" />
+  </svg>
+);
 
 const COMPANY_LINKS = [
   { label: "About", href: "/about" },
@@ -64,7 +69,7 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
             <ul className="space-y-2.5">
               <li className="flex items-start gap-2.5 text-sm text-white/70">
                 <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-crimson" aria-hidden="true" />
-                <span>Hassan Dall Mills, New Mandi Road, Faisalabad, Punjab, Pakistan — 38000</span>
+                <span>Head Office and MH Global Attire Mill, Faisalabad, Pakistan</span>
               </li>
               <li className="flex items-center gap-2.5 text-sm">
                 <Phone className="w-4 h-4 shrink-0 text-crimson" aria-hidden="true" />
@@ -97,6 +102,15 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
                 className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition-colors"
               >
                 <LinkedinIcon />
+              </a>
+              <a
+                href="https://www.facebook.com/share/1BSreyW39j/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="MH Global Attire on Facebook"
+                className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition-colors"
+              >
+                <FacebookIcon />
               </a>
             </div>
           </div>

@@ -47,9 +47,14 @@ export async function sendInquiryNotification(inquiry: {
   const safeName = sanitizeForSubject(inquiry.name);
   const safeCompany = inquiry.company ? sanitizeForSubject(inquiry.company) : null;
 
+  // Inquiry notifications are delivered to the company inbox (overridable via
+  // INQUIRY_NOTIFY_EMAIL); the authenticated Gmail account is only the sender.
+  const notifyTo = process.env.INQUIRY_NOTIFY_EMAIL || "info@mhglobalattire.com";
+
   await transporter.sendMail({
     from: `"MH Global Attire" <${process.env.GMAIL_USER}>`,
-    to: process.env.GMAIL_USER,
+    to: notifyTo,
+    replyTo: inquiry.email,
     subject: `New Inquiry from ${safeName}${safeCompany ? ` — ${safeCompany}` : ""}`,
     text: [
       `New inquiry received on MH Global Attire.`,

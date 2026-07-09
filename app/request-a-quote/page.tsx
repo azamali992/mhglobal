@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { ClipboardList, MessagesSquare, PackageCheck } from "lucide-react";
+import { ClipboardList, MessagesSquare, PackageCheck, Clock } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
@@ -59,6 +59,21 @@ export default async function RequestAQuotePage() {
                 What Happens Next
               </p>
               <h3 className="font-display text-h3 text-navy mb-6">A Clear, Managed Process</h3>
+
+              <div className="mb-6 flex items-center gap-3 rounded-card border border-line bg-cream-100 p-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-btn bg-crimson text-white">
+                  <Clock className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div>
+                  <p className="font-sans text-caption uppercase tracking-[0.08em] text-ink-muted">
+                    Expected Response Time
+                  </p>
+                  <p className="font-sans text-body font-semibold text-navy">
+                    Within 24–48 hours (Mon–Sat)
+                  </p>
+                </div>
+              </div>
+
               <ol className="space-y-4">
                 {STEPS.map((step, i) => {
                   const Icon = step.icon;

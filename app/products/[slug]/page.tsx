@@ -76,6 +76,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
       description: p.description,
       fabricOptions: p.fabricOptions,
       gsmRange: p.gsmRange,
+      image: p.images[0] ?? category.heroImage ?? null,
     })
   );
 
@@ -102,6 +103,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
       />
 
       <CategoryProducts
+        categorySlug={category.slug}
         products={category.products.map((p) => ({
           id: p.id,
           name: p.name,

@@ -20,7 +20,14 @@ const STATIC_ROUTES = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const categories = await prisma.category.findMany({
     where: { published: true },
-    select: { slug: true, updatedAt: true },
+    select: {
+      slug: true,
+      updatedAt: true,
+      products: {
+        where: { published: true },
+        select: { slug: true, updatedAt: true },
+      },
+    },
   });
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((path) => ({
@@ -37,7 +44,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticEntries, ...categoryEntries];
+  const productEntries: MetadataRoute.Sitemap = categories.flatMap((c) =>
+    c.products.map((p) => ({
+      url: absoluteUrl(`/products/${c.slug}/${p.slug}`),
+      lastModified: p.updatedAt,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }))
+  );
+
+  return [...staticEntries, ...categoryEntries, ...productEntries];
 }
 
 export const dynamic = "force-dynamic";

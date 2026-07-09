@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Phone, Mail, MapPin, User, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, User, MessageCircle, Clock } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo-metadata";
 import PageHero from "@/components/sections/PageHero";
@@ -122,6 +122,10 @@ export default async function ContactPage() {
                     <MessageCircle className="h-4 w-4" aria-hidden="true" /> Chat on WhatsApp
                   </a>
                 </div>
+                <p className="mt-6 flex items-center gap-2 font-sans text-caption text-white/60">
+                  <Clock className="h-4 w-4 shrink-0 text-crimson-light" aria-hidden="true" />
+                  Typical response within 24–48 hours (Mon–Sat)
+                </p>
               </div>
             </Reveal>
           </div>

@@ -19,9 +19,21 @@ interface ProductItem {
 
 interface CategoryProductsProps {
   products: ProductItem[];
+  /** Parent category slug, used to build each product's detail-page URL. */
+  categorySlug: string;
+  /** Overrides the default "Products in This Category" heading — used when
+   * this component is reused as a "related products" cross-link block on an
+   * individual product page. */
+  heading?: string;
+  eyebrow?: string;
 }
 
-export default function CategoryProducts({ products }: CategoryProductsProps) {
+export default function CategoryProducts({
+  products,
+  categorySlug,
+  heading = "Products in This Category",
+  eyebrow,
+}: CategoryProductsProps) {
   if (products.length === 0) return null;
 
   return (
@@ -29,10 +41,10 @@ export default function CategoryProducts({ products }: CategoryProductsProps) {
       <Container>
         <div className="mb-10">
           <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson mb-2">
-            {products.length} {products.length === 1 ? "Product" : "Products"}
+            {eyebrow ?? `${products.length} ${products.length === 1 ? "Product" : "Products"}`}
           </p>
           <h2 id="category-products-heading" className="font-display text-h3 md:text-h2 text-navy">
-            Products in This Category
+            {heading}
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -40,7 +52,11 @@ export default function CategoryProducts({ products }: CategoryProductsProps) {
             <Reveal key={product.id} direction="up" delay={(i % 3) * 0.06} className="h-full">
               <Card as="article" className="h-full flex flex-col overflow-hidden !p-0">
                 {/* Image */}
-                <div className="relative aspect-[3/4] w-full bg-cream-100">
+                <Link
+                  href={`/products/${categorySlug}/${product.slug}`}
+                  className="relative block aspect-[3/4] w-full bg-cream-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson focus-visible:ring-offset-2"
+                  aria-label={`View ${product.name} details`}
+                >
                   {product.image ? (
                     <Image
                       src={product.image}
@@ -59,11 +75,18 @@ export default function CategoryProducts({ products }: CategoryProductsProps) {
                       {product.gsmRange}
                     </span>
                   )}
-                </div>
+                </Link>
 
                 {/* Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-display text-h4 text-navy mb-2">{product.name}</h3>
+                  <h3 className="font-display text-h4 text-navy mb-2">
+                    <Link
+                      href={`/products/${categorySlug}/${product.slug}`}
+                      className="hover:text-crimson transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson rounded-sm"
+                    >
+                      {product.name}
+                    </Link>
+                  </h3>
                   {product.description && (
                     <p className="font-sans text-body text-ink-muted leading-relaxed mb-4 flex-1">
                       {product.description}

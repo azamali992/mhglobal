@@ -43,7 +43,7 @@ export default async function ProductsPage() {
         ]}
         image="/images/categories/t-shirts.jpg"
         meta={[
-          { value: `${categories.length}`, label: "Product Categories" },
+          { value: "Various", label: "Product Categories" },
           { value: "XS–5XL", label: "Size Range" },
           { value: "Custom", label: "Fabric & GSM" },
           { value: "OEM", label: "Private Label" },

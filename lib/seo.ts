@@ -42,7 +42,7 @@ export function buildOrganizationSchema({ whatsapp }: OrganizationSchemaInput) {
     foundingDate: "2022",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Hassan Dall Mills, New Mandi Road",
+      streetAddress: "Hassan Mills, New Mandi Road",
       addressLocality: "Faisalabad",
       addressRegion: "Punjab",
       postalCode: "38000",
@@ -89,6 +89,7 @@ interface ProductSchemaInput {
   description: string | null;
   fabricOptions: string[];
   gsmRange: string | null;
+  image?: string | null;
 }
 
 export function buildProductSchema(product: ProductSchemaInput) {
@@ -98,7 +99,8 @@ export function buildProductSchema(product: ProductSchemaInput) {
     name: product.name,
     description: product.description ?? undefined,
     category: product.categoryName,
-    url: absoluteUrl(`/products/${product.categorySlug}`),
+    url: absoluteUrl(`/products/${product.categorySlug}/${product.slug}`),
+    image: product.image ? absoluteUrl(product.image) : undefined,
     material: product.fabricOptions.length > 0 ? product.fabricOptions.join(", ") : undefined,
     additionalProperty: product.gsmRange
       ? [{ "@type": "PropertyValue", name: "GSM Range", value: product.gsmRange }]
