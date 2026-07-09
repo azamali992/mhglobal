@@ -88,7 +88,7 @@ export default async function HomePage() {
   ].filter(Boolean);
 
   const stages = mfgCbs
-    .filter((b) => b.key.startsWith("stage."))
+    .filter((b) => /^stage\.\d+$/.test(b.key))
     .sort((a, b) => a.order - b.order)
     .map((b) => b.value);
 
