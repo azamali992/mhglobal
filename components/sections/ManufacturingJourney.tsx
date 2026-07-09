@@ -1,14 +1,14 @@
 import Image from "next/image";
 import {
-  ClipboardDocumentCheckIcon,
   SwatchIcon,
-  PencilSquareIcon,
+  BeakerIcon,
   ScissorsIcon,
-  Cog6ToothIcon,
   PaintBrushIcon,
   SparklesIcon,
+  Cog6ToothIcon,
+  FireIcon,
   MagnifyingGlassIcon,
-  CubeIcon,
+  TruckIcon,
 } from "@heroicons/react/24/outline";
 import Reveal from "@/components/motion/Reveal";
 import Section from "@/components/ui/Section";
@@ -29,66 +29,66 @@ const STAGE_DEFAULTS: {
 }[] = [
   {
     description:
-      "Every order begins with your specification. We review your tech pack, target fabric and GSM, colour standards, sizing, quantities and any printing, embroidery or private-label requirements — confirming feasibility and MOQ before a single metre of cloth is committed.",
-    image: "/images/manufacturing/01-requirement-review.jpg",
-    alt: "Fabric swatch book and colour reference fan used to confirm buyer specifications",
-    icon: ClipboardDocumentCheckIcon,
-  },
-  {
-    description:
-      "Once the specification is locked, we source the exact knit or woven quality, GSM and shade you have approved through Faisalabad's textile supply base. Fabric is inspected and prepared so that hand-feel, weight and colour stay consistent across the entire lot.",
-    image: "/images/manufacturing/02-fabric-preparation.jpg",
-    alt: "Stacked rolls of coloured fabric prepared for a production run",
+      "Production begins in the knitting section, where yarn is knitted into greige fabric to the exact construction, gauge and GSM your order requires. Drawing on Faisalabad's established textile base, we produce single jersey, interlock, pique, fleece and rib qualities to consistent, buyer-approved standards.",
+    image: "/images/manufacturing/knitting.png",
+    alt: "Freshly knitted greige fabric produced to the required construction and GSM",
     icon: SwatchIcon,
   },
   {
     description:
-      "Before bulk, we develop the pattern and stitch a physical sample to your measurements. You review fit, construction and finishing on a real garment — and nothing moves forward until that sample is signed off, so the production run matches what you approved.",
-    image: "/images/manufacturing/03-sampling.jpg",
-    alt: "Pattern-making studio with a dress form, paper patterns and sampling machines",
-    icon: PencilSquareIcon,
+      "Greige fabric is scoured and dyed to your approved shade under controlled temperature and time, with lab-dips and shade approval completed before bulk. Every lot is checked for colour fastness, shade continuity and GSM so the fabric entering cutting matches the standard you signed off.",
+    image: "/images/manufacturing/dyeing.png",
+    alt: "Fabric dyed to the buyer's approved shade under controlled conditions",
+    icon: BeakerIcon,
   },
   {
     description:
-      "Approved fabric is laid, marked and cut to the graded pattern. Cutting is checked against the size set and marker so that panels are accurate, grain is correct and every bundle that reaches the sewing line is consistent.",
-    image: "/images/manufacturing/04-cutting.jpg",
-    alt: "Cutting fabric to a marked pattern on the cutting table",
+      "Approved fabric is relaxed, laid and marked, then cut to graded patterns for every size in the ratio. Cutting is verified against the marker and tech-pack measurements, and panels are bundled and numbered to keep shade and size consistent through the line.",
+    image: "/images/manufacturing/cutting.png",
+    alt: "Fabric laid, marked and cut to graded patterns",
     icon: ScissorsIcon,
   },
   {
     description:
-      "Bundles move onto the sewing line, where operators assemble the garment on industrial machines. Seams, measurements and workmanship are monitored inline throughout the run — catching any deviation at the machine rather than at the end.",
-    image: "/images/manufacturing/05-stitching.jpg",
-    alt: "Operator stitching garments on an industrial sewing machine on the production line",
-    icon: Cog6ToothIcon,
-  },
-  {
-    description:
-      "This is where your brand goes on the garment — screen or transfer printing, embroidery, custom neck and care labels, hangtags and barcode labelling — all applied to your approved artwork, thread colours and placement.",
-    image: "/images/manufacturing/06-customization.jpg",
-    alt: "Organised embroidery thread colours used for garment customization",
+      "Artwork is colour-matched and applied using screen, transfer or the print technique your design calls for, on approved strike-offs before any bulk run. Placement, registration, hand-feel and wash durability are checked so branding holds to specification through the garment's life.",
+    image: "/images/manufacturing/printing.png",
+    alt: "Approved artwork printed onto garment panels",
     icon: PaintBrushIcon,
   },
   {
     description:
-      "Sewn garments are trimmed, pressed and steamed to their final shape, then checked for loose threads, spots and shade variation. This is the stage that turns a stitched garment into a presentable, retail-ready product.",
-    image: "/images/manufacturing/07-finishing.jpg",
-    alt: "Finishing floor where garments are pressed and prepared on the overhead line",
+      "Logos and motifs are digitised and embroidered to your approved sample, with thread shades matched to your brand colours. Stitch density, backing and placement are controlled so every piece is clean, consistent and true to the approved artwork.",
+    image: "/images/manufacturing/embroidery.png",
+    alt: "Branded embroidery stitched to the approved artwork",
     icon: SparklesIcon,
   },
   {
     description:
-      "A dedicated QC team checks finished pieces against your approved specification — measurements, workmanship, print and embroidery quality, shade and overall appearance — so that what ships is what you signed off.",
-    image: "/images/manufacturing/08-inspection.jpg",
-    alt: "Quality-control team inspecting finished knitted goods against specification",
+      "Cut panels move onto the sewing lines, where trained operators assemble the garment on industrial machines to the agreed construction and stitch density. In-line inspection and measurement checks run throughout the line, so faults are caught early rather than at the end.",
+    image: "/images/manufacturing/stitching.png",
+    alt: "Operators assembling garments on the industrial sewing line",
+    icon: Cog6ToothIcon,
+  },
+  {
+    description:
+      "Assembled garments are trimmed, pressed and steamed to their final shape and finish. Each piece is checked for loose threads, open seams and overall appearance so it reaches its intended fit and presentation before final inspection.",
+    image: "/images/manufacturing/pressing.png",
+    alt: "Garments pressed and steamed to their final finish",
+    icon: FireIcon,
+  },
+  {
+    description:
+      "A dedicated quality team checks finished garments against your approved specification — measurements, construction, print and embroidery, shade and overall finish. Pieces are assessed to an AQL sampling standard, and anything outside tolerance is pulled for correction.",
+    image: "/images/manufacturing/qualitycheck.png",
+    alt: "Quality team checking finished garments against the approved specification",
     icon: MagnifyingGlassIcon,
   },
   {
     description:
-      "Approved garments are folded, poly-bagged, tagged and cartoned to your packing instructions. Quantities and assortments are verified against the order before the shipment is closed and handed to export coordination.",
-    image: "/images/manufacturing/09-packing.jpg",
-    alt: "Neatly folded finished garments stacked and ready for packing",
-    icon: CubeIcon,
+      "Passed garments are folded, tagged, poly-bagged and cartoned to your packing instructions, with a final quantity and carton audit before dispatch. We prepare the shipment and coordinate documentation for on-time export to your market.",
+    image: "/images/manufacturing/export.png",
+    alt: "Finished garments packed and audited ready for export",
+    icon: TruckIcon,
   },
 ];
 
