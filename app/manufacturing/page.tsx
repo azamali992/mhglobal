@@ -19,11 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     title: heading.value,
     description: intro.value.split(".")[0] + ".",
-    path: "/services",
+    path: "/manufacturing",
   });
 }
 
-export default async function ServicesPage() {
+export default async function ManufacturingPage() {
   const [mfgBlocks, homeBlocks, aboutHistory, whatsapp] = await Promise.all([
     prisma.contentBlock.findMany({ where: { page: "manufacturing" } }),
     prisma.contentBlock.findMany({
@@ -69,7 +69,7 @@ export default async function ServicesPage() {
   const serviceSchema = buildServiceSchema({
     name: "Apparel Manufacturing",
     description: cb["manufacturing.intro"],
-    path: "/services",
+    path: "/manufacturing",
   });
 
   return (
@@ -85,7 +85,7 @@ export default async function ServicesPage() {
         lead={cb["manufacturing.intro"]}
         breadcrumb={[
           { label: "Home", href: "/" },
-          { label: "Services", href: "/services" },
+          { label: "Manufacturing", href: "/manufacturing" },
         ]}
         image="/images/site/manufacturing.jpg"
         meta={[

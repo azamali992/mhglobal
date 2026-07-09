@@ -23,7 +23,7 @@ const PUBLIC_PATHS = [
   "/",
   "/about",
   "/products",
-  "/services",
+  "/manufacturing",
   "/oem-services",
   "/quality-assurance",
   "/sustainability",

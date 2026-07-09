@@ -26,7 +26,7 @@ const FacebookIcon = () => (
 
 const COMPANY_LINKS = [
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
+  { label: "Manufacturing", href: "/manufacturing" },
   { label: "OEM Services", href: "/oem-services" },
   { label: "Quality Assurance", href: "/quality-assurance" },
   { label: "Sustainability", href: "/sustainability" },

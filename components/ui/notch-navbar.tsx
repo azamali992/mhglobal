@@ -108,7 +108,7 @@ const NavLink = ({ href, label, className }: { href: string; label: string; clas
 
 const leftLinks = [
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services", icon: Factory },
+  { label: "Manufacturing", href: "/manufacturing", icon: Factory },
 ]
 
 // Quality lives with the left group so both sides balance in width and the

@@ -59,16 +59,6 @@ const nextConfig = {
       },
     ];
   },
-  async redirects() {
-    // The Manufacturing page was renamed to Services; keep old links/SEO alive.
-    return [
-      {
-        source: "/manufacturing",
-        destination: "/services",
-        permanent: true,
-      },
-    ];
-  },
 };
 
 export default nextConfig;

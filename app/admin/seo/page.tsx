@@ -21,7 +21,7 @@ const STATIC_PAGES: { path: string; label: string }[] = [
   { path: "/", label: "Home" },
   { path: "/about", label: "About" },
   { path: "/products", label: "Products (index)" },
-  { path: "/services", label: "Services" },
+  { path: "/manufacturing", label: "Manufacturing" },
   { path: "/oem-services", label: "OEM Services" },
   { path: "/quality-assurance", label: "Quality Assurance" },
   { path: "/sustainability", label: "Sustainability" },
