@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [aboutBlocks, homeBlocks, whatsapp, founded] = await Promise.all([
+  const [aboutBlocks, homeBlocks, whatsapp] = await Promise.all([
     prisma.contentBlock.findMany({
       where: {
         page: "about",
@@ -52,7 +52,6 @@ export default async function AboutPage() {
       },
     }),
     prisma.siteSetting.findUniqueOrThrow({ where: { key: "whatsapp" } }),
-    prisma.siteSetting.findUniqueOrThrow({ where: { key: "founded" } }),
   ]);
 
   const cb = Object.fromEntries(aboutBlocks.map((b) => [b.key, b.value]));
@@ -85,7 +84,7 @@ export default async function AboutPage() {
           { label: "About", href: "/about" },
         ]}
         meta={[
-          { value: founded.value, label: "Founded" },
+          { value: "In-House", label: "Quality Control" },
           { value: "Faisalabad", label: "Punjab, Pakistan" },
           { value: "OEM", label: "Private Label" },
           { value: "Export", label: "Worldwide" },

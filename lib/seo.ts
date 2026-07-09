@@ -39,7 +39,6 @@ export function buildOrganizationSchema({ whatsapp }: OrganizationSchemaInput) {
     name: SITE_NAME,
     url: SITE_URL,
     logo: absoluteUrl("/logo.png"),
-    foundingDate: "2022",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Hassan Mills, New Mandi Road",

@@ -183,7 +183,7 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
         <Container>
           <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-3 font-sans text-caption text-white/50">
             <p>&copy; {currentYear} MH Global Attire Ltd. All rights reserved.</p>
-            <p>Faisalabad, Punjab, Pakistan &middot; Est. 2022</p>
+            <p>Faisalabad, Punjab, Pakistan</p>
           </div>
         </Container>
       </div>

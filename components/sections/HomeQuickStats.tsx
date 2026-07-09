@@ -4,15 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
 interface Stat {
-  value: number;
+  value?: number;
+  display?: string;
   suffix?: string;
   prefix?: string;
   label: string;
 }
 
 interface HomeQuickStatsProps {
-  foundedYear: number;
-  categoriesCount: number;
   stagesCount: number;
   qcCount: number;
   oemServicesCount: number;
@@ -53,15 +52,12 @@ function CountUp({ value, prefix = "", suffix = "" }: { value: number; prefix?: 
 }
 
 export default function HomeQuickStats({
-  foundedYear,
-  categoriesCount,
   stagesCount,
   qcCount,
   oemServicesCount,
 }: HomeQuickStatsProps) {
   const stats: Stat[] = [
-    { value: foundedYear, label: "Est. — Manufacturing Since" },
-    { value: categoriesCount, label: "Product Categories" },
+    { display: "Various", label: "Product Categories" },
     { value: stagesCount, label: "Managed Production Stages" },
     { value: qcCount, label: "Quality Control Checkpoints" },
     { value: oemServicesCount, suffix: "+", label: "OEM & Private-Label Services" },
@@ -72,7 +68,7 @@ export default function HomeQuickStats({
       <h2 id="home-stats-heading" className="sr-only">
         MH Global Attire at a Glance
       </h2>
-      <div className="w-full max-w-[1280px] mx-auto grid grid-cols-2 md:grid-cols-5">
+      <div className="w-full max-w-[1280px] mx-auto grid grid-cols-2 md:grid-cols-4">
         {stats.map((stat, i) => {
           const mobileBorderL = i % 2 === 1;
           const mobileBorderT = i >= 2;
@@ -91,7 +87,11 @@ export default function HomeQuickStats({
             ].join(" ")}
           >
             <p className="font-display text-h2 md:text-h1 text-white leading-none mb-2">
-              <CountUp value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
+              {stat.display !== undefined ? (
+                stat.display
+              ) : (
+                <CountUp value={stat.value ?? 0} suffix={stat.suffix} prefix={stat.prefix} />
+              )}
             </p>
             <p className="font-sans text-caption text-white/60 uppercase tracking-[0.06em] leading-snug">
               {stat.label}

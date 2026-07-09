@@ -35,7 +35,6 @@ export default async function HomePage() {
     oemCbs,
     categories,
     whatsappSetting,
-    foundedSetting,
   ] = await Promise.all([
     prisma.contentBlock.findMany({
       where: {
@@ -69,7 +68,6 @@ export default async function HomePage() {
       orderBy: { order: "asc" },
     }),
     prisma.siteSetting.findUniqueOrThrow({ where: { key: "whatsapp" } }),
-    prisma.siteSetting.findUniqueOrThrow({ where: { key: "founded" } }),
   ]);
 
   const home = Object.fromEntries(heroCbs.map((b) => [b.key, b.value]));
@@ -116,8 +114,6 @@ export default async function HomePage() {
       />
 
       <HomeQuickStats
-        foundedYear={Number(foundedSetting.value)}
-        categoriesCount={categories.length}
         stagesCount={stages.length}
         qcCount={qcPoints.length}
         oemServicesCount={oemServices.length}

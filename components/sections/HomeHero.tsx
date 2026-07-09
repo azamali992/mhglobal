@@ -80,19 +80,20 @@ export default function HomeHero({ heading, subheading, ctaPrimary, ctaSecondary
           fill
           priority
           sizes="100vw"
-          className="object-contain object-center opacity-[0.12] md:opacity-100"
+          className="object-cover object-[70%_center] opacity-[0.14] md:opacity-100"
         />
       </motion.div>
 
-      {/* Cream scrims — keep the navy copy legible over the line-art on the left,
-          and blend the base into the page below. */}
+      {/* Cream scrims — protect the navy copy on the left while letting the
+          branded line-art and logo show through on the right, then blend the
+          base into the page below. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-cream via-cream/85 to-cream/20"
+        className="absolute inset-0 bg-gradient-to-r from-cream via-cream/70 to-transparent"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-cream via-cream/10 to-transparent"
+        className="absolute inset-0 bg-gradient-to-t from-cream/60 via-transparent to-transparent"
       />
 
       <Container className="relative z-10">

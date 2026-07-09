@@ -46,7 +46,7 @@ export default async function WhyChooseUsPage() {
           { label: "Why Choose Us", href: "/why-choose-us" },
         ]}
         meta={[
-          { value: "2022", label: "Manufacturing Since" },
+          { value: "In-House", label: "Manufacturing" },
           { value: "OEM", label: "Private Label" },
           { value: "Buyer-Spec", label: "Fabric & Sizing" },
           { value: "Long-Term", label: "Partnership Focus" },
