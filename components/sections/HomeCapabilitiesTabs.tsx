@@ -123,8 +123,8 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="space-y-8 md:space-y-10"
           >
-            <div className="grid grid-cols-1 md:grid-cols-[minmax(0,360px)_1fr] gap-10 md:gap-14 items-center">
-              <div>
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-14 items-center">
+              <div className="max-w-lg">
                 <h3 className="font-display text-h3 text-white mb-3">{current.heading}</h3>
                 <p className="font-sans text-body text-white/70 leading-relaxed mb-6">{current.intro}</p>
                 <Link
@@ -135,8 +135,12 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
                 </Link>
               </div>
 
-              {/* Media card — production video, or a still for quality / OEM */}
-              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-card border border-white/10 shadow-card">
+              {/* Media card — portrait to match the source assets (photos 4:5,
+                  reel video 9:16), so nothing is cropped. */}
+              <div
+                className="relative mx-auto w-full max-w-[300px] overflow-hidden rounded-card border border-white/10 shadow-card md:mx-0 md:w-auto md:max-w-none md:h-[440px]"
+                style={{ aspectRatio: current.media.type === "video" ? "9 / 16" : "4 / 5" }}
+              >
                 {current.media.type === "video" ? (
                   <video
                     key={current.media.src}
@@ -156,7 +160,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
                     src={current.media.src}
                     alt={current.media.alt}
                     fill
-                    sizes="(max-width: 768px) 100vw, 55vw"
+                    sizes="(max-width: 768px) 300px, 360px"
                     className="object-cover"
                   />
                 )}
