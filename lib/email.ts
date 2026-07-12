@@ -47,9 +47,10 @@ export async function sendInquiryNotification(inquiry: {
   const safeName = sanitizeForSubject(inquiry.name);
   const safeCompany = inquiry.company ? sanitizeForSubject(inquiry.company) : null;
 
-  // Inquiry notifications are delivered to the company inbox (overridable via
-  // INQUIRY_NOTIFY_EMAIL); the authenticated Gmail account is only the sender.
-  const notifyTo = process.env.INQUIRY_NOTIFY_EMAIL || "info@mhglobalattire.com";
+  // Inquiry notifications always go to the company inbox — hard-locked so no
+  // environment override can redirect them. The authenticated Gmail account
+  // (GMAIL_USER) is only the sender.
+  const notifyTo = "info@mhglobalattire.com";
 
   await transporter.sendMail({
     from: `"MH Global Attire" <${process.env.GMAIL_USER}>`,
