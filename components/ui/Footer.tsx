@@ -181,9 +181,21 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <Container>
-          <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-3 font-sans text-caption text-white/50">
-            <p>&copy; {currentYear} MH Global Attire Ltd. All rights reserved.</p>
-            <p>Faisalabad, Punjab, Pakistan</p>
+          <div className="py-5 flex flex-col gap-4 font-sans text-caption text-white/50 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+            <p className="order-1 sm:order-none">&copy; {currentYear} MH Global Attire Ltd. All rights reserved.</p>
+            <span className="order-3 inline-flex items-center gap-2 text-white/40 sm:order-none">
+              <span>Powered by</span>
+              <span className="inline-flex items-center rounded bg-white px-1.5 py-1 ring-1 ring-white/10">
+                <Image
+                  src="/images/azektra-logo.png"
+                  alt="Azektra"
+                  width={1172}
+                  height={217}
+                  className="h-3.5 w-auto"
+                />
+              </span>
+            </span>
+            <p className="order-2 sm:order-none">Faisalabad, Punjab, Pakistan</p>
           </div>
         </Container>
       </div>
