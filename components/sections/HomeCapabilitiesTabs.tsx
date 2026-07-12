@@ -2,9 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
+
+interface TabMedia {
+  type: "video" | "image";
+  src: string;
+  alt: string;
+}
 
 interface TabData {
   key: string;
@@ -15,6 +22,7 @@ interface TabData {
   href: string;
   linkLabel: string;
   numbered: boolean;
+  media: TabMedia;
 }
 
 interface HomeCapabilitiesTabsProps {
@@ -39,6 +47,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       href: "/manufacturing",
       linkLabel: "View Full Manufacturing Process",
       numbered: true,
+      media: { type: "video", src: "/production.mp4", alt: "MH Global Attire production floor in Faisalabad" },
     },
     {
       key: "quality",
@@ -49,6 +58,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       href: "/quality-assurance",
       linkLabel: "View Quality Assurance Standards",
       numbered: false,
+      media: { type: "image", src: "/quality.jpeg", alt: "Quality inspection of finished garments at MH Global Attire" },
     },
     {
       key: "oem",
@@ -59,6 +69,7 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       href: "/oem-services",
       linkLabel: "View OEM & Private-Label Services",
       numbered: false,
+      media: { type: "image", src: "/oem.jpg", alt: "OEM and private-label apparel produced by MH Global Attire" },
     },
   ];
 
@@ -110,20 +121,53 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
             animate={{ opacity: 1, y: 0 }}
             exit={shouldReduceMotion ? {} : { opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="grid grid-cols-1 md:grid-cols-[minmax(0,340px)_1fr] gap-10 md:gap-16"
+            className="space-y-8 md:space-y-10"
           >
-            <div>
-              <h3 className="font-display text-h3 text-white mb-3">{current.heading}</h3>
-              <p className="font-sans text-body text-white/70 leading-relaxed mb-6">{current.intro}</p>
-              <Link
-                href={current.href}
-                className="inline-flex items-center gap-1.5 font-sans text-sm font-semibold text-crimson-light hover:text-white transition-colors"
-              >
-                {current.linkLabel} <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div className="grid grid-cols-1 md:grid-cols-[minmax(0,360px)_1fr] gap-10 md:gap-14 items-center">
+              <div>
+                <h3 className="font-display text-h3 text-white mb-3">{current.heading}</h3>
+                <p className="font-sans text-body text-white/70 leading-relaxed mb-6">{current.intro}</p>
+                <Link
+                  href={current.href}
+                  className="inline-flex items-center gap-1.5 font-sans text-sm font-semibold text-crimson-light hover:text-white transition-colors"
+                >
+                  {current.linkLabel} <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+              {/* Media card — production video, or a still for quality / OEM */}
+              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-card border border-white/10 shadow-card">
+                {current.media.type === "video" ? (
+                  <video
+                    key={current.media.src}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    autoPlay={!shouldReduceMotion}
+                    muted
+                    loop
+                    playsInline
+                    controls={shouldReduceMotion === true}
+                    preload="metadata"
+                    aria-label={current.media.alt}
+                  >
+                    <source src={current.media.src} type="video/mp4" />
+                  </video>
+                ) : (
+                  <Image
+                    src={current.media.src}
+                    alt={current.media.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 55vw"
+                    className="object-cover"
+                  />
+                )}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/50 via-transparent to-transparent"
+                />
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {current.items.map((item, i) => (
                 <div
                   key={item}
