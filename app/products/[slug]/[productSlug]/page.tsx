@@ -28,12 +28,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!product || product.category.slug !== params.slug) {
     return { title: "Product Not Found" };
   }
+  // Avoid "Custom Custom …" when the category name already starts with "Custom".
+  const catLabel = /^custom/i.test(product.category.name)
+    ? `${product.category.name} Manufacturer`
+    : `Custom ${product.category.name} Manufacturer`;
   return buildMetadata({
-    title: `${product.name} | Custom ${product.category.name} Manufacturer`,
+    title: `${product.name} | ${catLabel}`,
     description:
       product.description ??
       `Custom ${product.name.toLowerCase()} manufacturing from MH Global Attire — a private-label and OEM apparel manufacturer in Faisalabad, Pakistan. Fabric, GSM, sizing and branding to your specification.`,
     path: `/products/${params.slug}/${params.productSlug}`,
+    image: product.images[0] ?? product.category.heroImage ?? null,
   });
 }
 

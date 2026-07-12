@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo-metadata";
+import { buildFaqSchema } from "@/lib/seo";
+import { PRODUCTS_FAQ } from "@/lib/faq-data";
+import FaqSection from "@/components/sections/FaqSection";
 import HomeHero from "@/components/sections/HomeHero";
 import HomeQuickStats from "@/components/sections/HomeQuickStats";
 import HomeTrustStrip from "@/components/sections/HomeTrustStrip";
@@ -150,6 +153,13 @@ export default async function HomePage() {
       />
 
       <HomeQualityBadges qaIntro={quality["quality.intro"]} qcPoints={qcPoints} differentiators={differentiators} />
+
+      <FaqSection items={PRODUCTS_FAQ} />
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqSchema(PRODUCTS_FAQ)) }}
+      />
 
       <HomeCtaBand
         heading={home["hero.heading"]}

@@ -22,6 +22,12 @@ interface BuildMetadataInput {
   description: string;
   /** Route path, e.g. "/about" or "/products/t-shirts" */
   path: string;
+  /**
+   * Optional social-share image. Product/category pages pass their real photo
+   * (Cloudinary URL or a "/images/..." path) so shares show the product rather
+   * than the generic text card. When omitted, the dynamic OG card is used.
+   */
+  image?: string | null;
 }
 
 /**
@@ -42,7 +48,18 @@ export async function buildMetadata(input: BuildMetadataInput): Promise<Metadata
   const description = override?.description || input.description;
 
   const url = absoluteUrl(input.path);
-  const image = ogImageUrl(title);
+
+  // A real product/category photo overrides the generated card. Cloudinary
+  // URLs are already absolute; local "/images/..." paths are absolutized.
+  // Custom photos vary in aspect ratio, so we don't assert 1200x630 on them.
+  const custom = input.image
+    ? input.image.startsWith("http")
+      ? input.image
+      : absoluteUrl(input.image)
+    : null;
+  const ogImages = custom
+    ? [{ url: custom, alt: title }]
+    : [{ url: ogImageUrl(title), width: 1200, height: 630, alt: title }];
 
   return {
     title,
@@ -54,13 +71,13 @@ export async function buildMetadata(input: BuildMetadataInput): Promise<Metadata
       url,
       siteName: SITE_NAME,
       type: "website",
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
+      images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} | ${SITE_NAME}`,
       description,
-      images: [image],
+      images: [ogImages[0].url],
     },
   };
 }

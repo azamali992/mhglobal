@@ -25,12 +25,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     where: { slug: params.slug },
   });
   if (!category) return { title: "Category Not Found" };
+  // Avoid "Custom Custom …" when the category name already starts with "Custom".
+  const title = /^custom/i.test(category.name)
+    ? `${category.name} Manufacturer`
+    : `Custom ${category.name} Manufacturer`;
   return buildMetadata({
-    title: `${category.name} — Apparel Manufacturing`,
+    title,
     description:
       category.description ??
       `Custom ${category.name.toLowerCase()} manufacturing from MH Global Attire — fabric, GSM, sizing and private-label customization to your specification.`,
     path: `/products/${params.slug}`,
+    image: category.heroImage ?? null,
   });
 }
 
