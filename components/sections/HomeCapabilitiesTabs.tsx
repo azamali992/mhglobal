@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 
@@ -23,6 +23,7 @@ interface TabData {
   linkLabel: string;
   numbered: boolean;
   media: TabMedia;
+  mediaTag: string;
 }
 
 interface HomeCapabilitiesTabsProps {
@@ -31,11 +32,15 @@ interface HomeCapabilitiesTabsProps {
   oem: { heading: string; moqNote: string; services: string[] };
 }
 
+// Exponential ease-out — settles without bounce, matches the brand's
+// "unhurried, precise" motion voice.
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: HomeCapabilitiesTabsProps) {
-  const shouldReduceMotionRaw = useReducedMotion();
+  const reduceRaw = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const shouldReduceMotion = mounted && shouldReduceMotionRaw;
+  const reduce = mounted && reduceRaw;
 
   const tabs: TabData[] = [
     {
@@ -45,9 +50,10 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       intro: manufacturing.intro,
       items: manufacturing.stages,
       href: "/manufacturing",
-      linkLabel: "View Full Manufacturing Process",
+      linkLabel: "View the full manufacturing process",
       numbered: true,
       media: { type: "video", src: "/production.mp4", alt: "MH Global Attire production floor in Faisalabad" },
+      mediaTag: "On the production floor",
     },
     {
       key: "quality",
@@ -56,9 +62,10 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       intro: quality.intro,
       items: quality.points,
       href: "/quality-assurance",
-      linkLabel: "View Quality Assurance Standards",
+      linkLabel: "View quality assurance standards",
       numbered: false,
       media: { type: "image", src: "/quality.jpeg", alt: "Quality inspection of finished garments at MH Global Attire" },
+      mediaTag: "In-house quality control",
     },
     {
       key: "oem",
@@ -67,124 +74,200 @@ export default function HomeCapabilitiesTabs({ manufacturing, quality, oem }: Ho
       intro: oem.moqNote,
       items: oem.services,
       href: "/oem-services",
-      linkLabel: "View OEM & Private-Label Services",
+      linkLabel: "View OEM & private-label services",
       numbered: false,
       media: { type: "image", src: "/oem.jpg", alt: "OEM and private-label apparel produced by MH Global Attire" },
+      mediaTag: "Private-label & OEM",
     },
   ];
 
   const [active, setActive] = useState(0);
   const current = tabs[active];
 
-  return (
-    <section aria-labelledby="home-capabilities-heading" className="w-full bg-navy py-12 md:py-16">
-      <Container>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
-          <div>
-            <p className="font-sans text-caption font-semibold uppercase tracking-[0.14em] text-crimson-light mb-2">
-              Manufacturing Capabilities
-            </p>
-            <h2 id="home-capabilities-heading" className="font-display text-h3 md:text-h2 text-white">
-              Built for Buyers Who Need Precision at Scale
-            </h2>
-          </div>
+  const listV: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.03, delayChildren: 0.08 } },
+  };
+  const rowV: Variants = reduce
+    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, y: 12 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
+      };
 
-          {/* Tab switcher */}
-          <div role="tablist" aria-label="Manufacturing capability areas" className="flex gap-1 bg-white/5 rounded-btn p-1 shrink-0">
-            {tabs.map((tab, i) => (
+  return (
+    <section
+      aria-labelledby="home-capabilities-heading"
+      className="relative w-full overflow-hidden bg-navy py-16 md:py-24"
+    >
+      {/* Warm ambient glow anchored behind the media plate — soft depth, not a gradient wash */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[-10%] top-1/3 h-[520px] w-[520px] rounded-full bg-crimson/20 blur-[130px]"
+      />
+
+      <Container className="relative">
+        {/* ── Header ── */}
+        <div className="max-w-3xl">
+          <p className="mb-3 font-sans text-caption font-semibold uppercase tracking-[0.2em] text-crimson-light">
+            Manufacturing Capabilities
+          </p>
+          <h2
+            id="home-capabilities-heading"
+            className="text-balance font-display text-h2 md:text-h1 text-white"
+          >
+            Built for Buyers Who Need Precision at Scale
+          </h2>
+        </div>
+
+        {/* ── Index bar (tabs) ── */}
+        <div
+          role="tablist"
+          aria-label="Manufacturing capability areas"
+          className="mt-10 flex gap-7 overflow-x-auto border-b border-white/10 sm:gap-10"
+        >
+          {tabs.map((tab, i) => {
+            const isActive = active === i;
+            return (
               <button
                 key={tab.key}
                 role="tab"
-                aria-selected={active === i}
+                aria-selected={isActive}
                 onClick={() => setActive(i)}
-                className={`relative font-sans text-sm font-semibold px-4 py-2 rounded-btn transition-colors whitespace-nowrap ${
-                  active === i ? "text-navy" : "text-white/70 hover:text-white"
-                }`}
+                className="group relative -mb-px shrink-0 pb-4 pt-1 outline-none"
               >
-                {active === i && (
+                <span className="flex items-baseline gap-2">
+                  <span
+                    className={`font-sans text-sm font-semibold tracking-wide transition-colors duration-300 ${
+                      isActive ? "text-white" : "text-white/50 group-hover:text-white/80"
+                    }`}
+                  >
+                    {tab.tabLabel}
+                  </span>
+                  <span
+                    className={`font-sans text-caption tabular-nums transition-colors duration-300 ${
+                      isActive ? "text-crimson-light" : "text-white/30"
+                    }`}
+                  >
+                    {String(tab.items.length).padStart(2, "0")}
+                  </span>
+                </span>
+                {isActive && (
                   <motion.span
-                    layoutId="capability-tab-pill"
-                    className="absolute inset-0 bg-cream rounded-btn -z-10"
-                    transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 350, damping: 30 }}
+                    layoutId="capability-tab-underline"
+                    className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-crimson-light"
+                    transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }}
                   />
                 )}
-                {tab.tabLabel}
               </button>
-            ))}
-          </div>
+            );
+          })}
         </div>
 
+        {/* ── Spread ── */}
         <AnimatePresence mode="wait">
           <motion.div
             key={current.key}
-            initial={shouldReduceMotion ? {} : { opacity: 0, y: 12 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? {} : { opacity: 0, y: -12 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="space-y-8 md:space-y-10"
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="mt-12 grid grid-cols-1 gap-10 lg:mt-16 lg:grid-cols-[1fr_auto] lg:gap-16"
           >
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-14 items-center">
-              <div className="max-w-lg">
-                <h3 className="font-display text-h3 text-white mb-3">{current.heading}</h3>
-                <p className="font-sans text-body text-white/70 leading-relaxed mb-6">{current.intro}</p>
-                <Link
-                  href={current.href}
-                  className="inline-flex items-center gap-1.5 font-sans text-sm font-semibold text-crimson-light hover:text-white transition-colors"
-                >
-                  {current.linkLabel} <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+            {/* Content column */}
+            <div className="order-2 lg:order-1">
+              <h3 className="max-w-xl text-balance font-display text-h3 md:text-h2 text-white">
+                {current.heading}
+              </h3>
+              <p className="mt-4 max-w-xl font-sans text-body-lg text-white/70 leading-relaxed">
+                {current.intro}
+              </p>
 
-              {/* Media card — portrait to match the source assets (photos 4:5,
-                  reel video 9:16), so nothing is cropped. */}
+              <motion.ul
+                key={current.key + "-list"}
+                variants={listV}
+                initial="hidden"
+                animate="show"
+                className="mt-10 grid grid-cols-1 gap-x-12 sm:grid-cols-2"
+              >
+                {current.items.map((item, i) => (
+                  <motion.li
+                    key={item}
+                    variants={rowV}
+                    className="flex items-baseline gap-4 border-b border-white/10 py-3.5"
+                  >
+                    <span className="w-7 shrink-0" aria-hidden="true">
+                      {current.numbered ? (
+                        <span className="font-display text-[1.4rem] leading-none text-crimson-light tabular-nums">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                      ) : (
+                        <span className="mt-[0.4em] block h-1.5 w-1.5 rotate-45 bg-crimson-light/80" />
+                      )}
+                    </span>
+                    <span className="font-sans text-[0.95rem] text-white/85 leading-snug">{item}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+
+              <Link
+                href={current.href}
+                className="group mt-10 inline-flex items-center gap-2 font-sans text-sm font-semibold text-crimson-light outline-none transition-colors hover:text-white focus-visible:text-white"
+              >
+                {current.linkLabel}
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </div>
+
+            {/* Media plate — mounted, gallery-style */}
+            <div className="relative order-1 mx-auto w-full max-w-[290px] lg:order-2 lg:mx-0 lg:max-w-none">
+              {/* Offset backing panel — gives the photo a mounted depth */}
               <div
-                className="relative mx-auto w-full max-w-[300px] overflow-hidden rounded-card border border-white/10 shadow-card md:mx-0 md:w-auto md:max-w-none md:h-[440px]"
+                aria-hidden="true"
+                className="absolute inset-0 -translate-x-3 translate-y-3 rounded-card bg-navy-800 ring-1 ring-white/5"
+              />
+              <motion.div
+                key={current.key + "-media"}
+                initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: EASE }}
+                className="relative overflow-hidden rounded-card shadow-card-dark ring-1 ring-white/10 lg:h-[470px] lg:w-auto"
                 style={{ aspectRatio: current.media.type === "video" ? "9 / 16" : "4 / 5" }}
               >
                 {current.media.type === "video" ? (
-                  <video
-                    key={current.media.src}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    autoPlay={!shouldReduceMotion}
-                    muted
-                    loop
-                    playsInline
-                    controls={shouldReduceMotion === true}
-                    preload="metadata"
-                    aria-label={current.media.alt}
-                  >
-                    <source src={current.media.src} type="video/mp4" />
-                  </video>
+                  <>
+                    <video
+                      key={current.media.src}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      autoPlay={!reduce}
+                      muted
+                      loop
+                      playsInline
+                      controls={reduce === true}
+                      preload="metadata"
+                      aria-label={current.media.alt}
+                    >
+                      <source src={current.media.src} type="video/mp4" />
+                    </video>
+                    {/* Tag caption — only on the plain footage; the branded stills
+                        carry their own captions and shouldn't be overlaid. */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/40 to-transparent p-5">
+                      <span aria-hidden="true" className="mb-2 block h-0.5 w-8 bg-crimson-light" />
+                      <span className="font-sans text-caption font-semibold uppercase tracking-[0.16em] text-white/90">
+                        {current.mediaTag}
+                      </span>
+                    </div>
+                  </>
                 ) : (
                   <Image
                     src={current.media.src}
                     alt={current.media.alt}
                     fill
-                    sizes="(max-width: 768px) 300px, 360px"
+                    sizes="(max-width: 1024px) 290px, 380px"
                     className="object-cover"
                   />
                 )}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/50 via-transparent to-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {current.items.map((item, i) => (
-                <div
-                  key={item}
-                  className="rounded-card border border-white/10 bg-white/[0.03] px-4 py-4 flex items-start gap-3"
-                >
-                  {current.numbered && (
-                    <span className="font-display text-h4 text-crimson-light/80 leading-none shrink-0">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  )}
-                  <span className="font-sans text-sm text-white/85 leading-snug">{item}</span>
-                </div>
-              ))}
+              </motion.div>
             </div>
           </motion.div>
         </AnimatePresence>
