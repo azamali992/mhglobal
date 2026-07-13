@@ -16,7 +16,10 @@ const CSP = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://challenges.cloudflare.com https://www.googletagmanager.com`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  // Public pages proxy Cloudinary through /_next/image (same-origin), but the
+  // admin list/upload previews use raw <img> pointing straight at Cloudinary,
+  // so the CDN host must be whitelisted for those to render.
+  "img-src 'self' data: blob: https://res.cloudinary.com",
   "font-src 'self' data:",
   "connect-src 'self' https://challenges.cloudflare.com https://www.google-analytics.com https://analytics.google.com",
   "frame-src https://challenges.cloudflare.com",
