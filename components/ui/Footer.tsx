@@ -183,7 +183,12 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
         <Container>
           <div className="py-5 flex flex-col gap-4 font-sans text-caption text-white/50 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
             <p className="order-1 sm:order-none">&copy; {currentYear} MH Global Attire Ltd. All rights reserved.</p>
-            <span className="order-3 inline-flex items-center gap-2 text-white/40 sm:order-none">
+            <a
+              href="https://azektra.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="order-3 inline-flex items-center gap-2 text-white/40 transition-colors hover:text-white/70 sm:order-none"
+            >
               <span>Powered by</span>
               <span className="inline-flex items-center rounded bg-white px-1.5 py-1 ring-1 ring-white/10">
                 <Image
@@ -194,7 +199,7 @@ export default function Footer({ categories }: { categories: NavCategory[] }) {
                   className="h-3.5 w-auto"
                 />
               </span>
-            </span>
+            </a>
             <p className="order-2 sm:order-none">Faisalabad, Punjab, Pakistan</p>
           </div>
         </Container>
