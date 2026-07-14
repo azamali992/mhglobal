@@ -211,7 +211,7 @@ export default function InquiryForm({ categories, defaultProduct = "" }: Inquiry
           <option value="Other">Other / Multiple</option>
         </Select>
 
-        <Input id="quantity" label="Estimated Quantity" placeholder="e.g. 1,000 pcs" value={values.quantity} error={errors.quantity} onChange={(e) => set("quantity", e.target.value)} />
+        <Input id="quantity" label="Estimated Quantity" placeholder="e.g. 10,000 pcs" value={values.quantity} error={errors.quantity} onChange={(e) => set("quantity", e.target.value)} />
         <Input id="fabric" label="Fabric" placeholder="e.g. 100% cotton, French terry" value={values.fabric} error={errors.fabric} onChange={(e) => set("fabric", e.target.value)} />
         <Input id="gsm" label="GSM" placeholder="e.g. 240 GSM" value={values.gsm} error={errors.gsm} onChange={(e) => set("gsm", e.target.value)} />
         <Input id="customization" label="Customization" placeholder="Printing, embroidery, labels…" value={values.customization} error={errors.customization} onChange={(e) => set("customization", e.target.value)} />
