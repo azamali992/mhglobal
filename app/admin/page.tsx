@@ -38,16 +38,28 @@ export default async function AdminDashboardPage() {
       prisma.inquiry.count({ where: { status: "NEW" } }),
       prisma.inquiry.count(),
       prisma.product.count({ where: { published: true } }),
+      // Select every field the drawer renders — the dashboard row opens the
+      // same InquiryDrawer as the Inquiries page, so a partial select would
+      // leave the buyer's details blank once opened.
       prisma.inquiry.findMany({
         orderBy: { createdAt: "desc" },
         take: 5,
         select: {
           id: true,
-          company: true,
           name: true,
+          company: true,
           country: true,
-          createdAt: true,
+          email: true,
+          phone: true,
+          productInterest: true,
+          quantity: true,
+          fabric: true,
+          gsm: true,
+          customization: true,
+          message: true,
+          fileUrls: true,
           status: true,
+          createdAt: true,
         },
       }),
     ]);

@@ -70,7 +70,14 @@ export async function sendInquiryNotification(inquiry: {
   email: string;
   company?: string | null;
   country?: string | null;
+  phone?: string | null;
+  productInterest?: string | null;
+  quantity?: string | null;
+  fabric?: string | null;
+  gsm?: string | null;
+  customization?: string | null;
   message?: string | null;
+  fileUrls?: string[];
 }): Promise<void> {
   const safeName = sanitizeForSubject(inquiry.name);
   const safeCompany = inquiry.company ? sanitizeForSubject(inquiry.company) : null;
@@ -80,6 +87,9 @@ export async function sendInquiryNotification(inquiry: {
   // mail account (see `fromAddress` above).
   const notifyTo = "info@mhglobalattire.com";
 
+  const dash = "—";
+  const files = inquiry.fileUrls ?? [];
+
   await transporter.sendMail({
     from: `"MH Global Attire" <${fromAddress}>`,
     to: notifyTo,
@@ -88,13 +98,27 @@ export async function sendInquiryNotification(inquiry: {
     text: [
       `New inquiry received on MH Global Attire.`,
       ``,
-      `Name:    ${inquiry.name}`,
-      `Email:   ${inquiry.email}`,
-      `Company: ${inquiry.company ?? "—"}`,
-      `Country: ${inquiry.country ?? "—"}`,
+      `— CONTACT —`,
+      `Name:            ${inquiry.name}`,
+      `Email:           ${inquiry.email}`,
+      `Phone:           ${inquiry.phone ?? dash}`,
+      `Company:         ${inquiry.company ?? dash}`,
+      `Country:         ${inquiry.country ?? dash}`,
       ``,
-      `Message:`,
+      `— REQUIREMENTS —`,
+      `Product Interest: ${inquiry.productInterest ?? dash}`,
+      `Quantity:         ${inquiry.quantity ?? dash}`,
+      `Fabric:           ${inquiry.fabric ?? dash}`,
+      `GSM:              ${inquiry.gsm ?? dash}`,
+      `Customization:    ${inquiry.customization ?? dash}`,
+      ``,
+      `— MESSAGE —`,
       inquiry.message ?? "(no message provided)",
+      ``,
+      `— ATTACHMENTS —`,
+      files.length > 0 ? files.join("\n") : "(none)",
+      ``,
+      `Reply directly to this email to respond to the buyer.`,
     ].join("\n"),
   });
 }

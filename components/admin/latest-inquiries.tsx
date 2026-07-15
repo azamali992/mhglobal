@@ -11,9 +11,18 @@ type InquiryStatus = "NEW" | "REVIEWED" | "QUOTED" | "CLOSED";
 export interface LatestInquiriesProps {
   inquiries: Array<{
     id: string;
-    company: string | null;
     name: string;
+    company: string | null;
     country: string | null;
+    email: string;
+    phone: string | null;
+    productInterest: string | null;
+    quantity: string | null;
+    fabric: string | null;
+    gsm: string | null;
+    customization: string | null;
+    message: string | null;
+    fileUrls: string[];
     createdAt: Date;
     status: InquiryStatus;
   }>;
@@ -39,23 +48,6 @@ export default function LatestInquiries({ inquiries: initialInquiries }: LatestI
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const selectedInquiry = inquiries.find((i) => i.id === selectedId) ?? null;
-
-  // For the drawer we need the full inquiry shape; since this is a partial list
-  // component, null out fields not present in LatestInquiriesProps
-  const fullInquiry = selectedInquiry
-    ? {
-        ...selectedInquiry,
-        email: "",
-        phone: null,
-        productInterest: null,
-        quantity: null,
-        fabric: null,
-        gsm: null,
-        customization: null,
-        message: null,
-        fileUrls: [] as string[],
-      }
-    : null;
 
   function handleRowClick(id: string) {
     setSelectedId(id);
@@ -147,7 +139,7 @@ export default function LatestInquiries({ inquiries: initialInquiries }: LatestI
       </div>
 
       <InquiryDrawer
-        inquiry={fullInquiry}
+        inquiry={selectedInquiry}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         onStatusChange={handleStatusChange}
